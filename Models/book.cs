@@ -15,7 +15,7 @@ namespace Group2_BookStore.Models
         public string image { get; set; }
         public int author_id { get; set; }
         public string publisher { get; set; }
-        public string publish_date { get; set; }
+        public string pulish_date { get; set; }
         public int page_number { get; set; }
         public string category { get; set; }
         public string size { get; set; }

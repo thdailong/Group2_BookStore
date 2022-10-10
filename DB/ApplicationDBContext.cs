@@ -12,16 +12,16 @@ namespace Group2_BookStore.DB
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options) {
 
         }
-        public DbSet<customer> Customers {get; set;}
-        public DbSet<address> addresses {get; set;}
-        public DbSet<author> authors {get; set;}
-        public DbSet<award> awards {get; set;}
-        public DbSet<book_award> book_awards {get; set;}
-        public DbSet<book> books {get; set;}
-        public DbSet<cart> carts {get; set;}
-        public DbSet<comment> comments {get; set;}
-        public DbSet<order_detail> order_details {get; set;}
-        public DbSet<order> orders {get; set;}
-        public DbSet<rate> rates {get; set;}
+        public DbSet<customer> customer {get; set;}
+        public DbSet<address> address {get; set;}
+        public DbSet<author> author {get; set;}
+        public DbSet<award> award {get; set;}
+        public DbSet<book_award> book_award {get; set;}
+        public DbSet<book> book {get; set;}
+        public DbSet<cart> cart {get; set;}
+        public DbSet<comment> comment {get; set;}
+        public DbSet<order_detail> order_detail {get; set;}
+        public DbSet<order> order {get; set;}
+        public DbSet<rate> rate {get; set;}
     }
 }

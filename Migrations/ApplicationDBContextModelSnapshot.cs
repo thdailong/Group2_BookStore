@@ -36,7 +36,7 @@ namespace Group2_BookStore.Migrations
 
                     b.HasKey("address_id");
 
-                    b.ToTable("addresses");
+                    b.ToTable("address");
                 });
 
             modelBuilder.Entity("Group2_BookStore.Models.author", b =>
@@ -66,7 +66,7 @@ namespace Group2_BookStore.Migrations
 
                     b.HasKey("author_id");
 
-                    b.ToTable("authors");
+                    b.ToTable("author");
                 });
 
             modelBuilder.Entity("Group2_BookStore.Models.award", b =>
@@ -84,7 +84,7 @@ namespace Group2_BookStore.Migrations
 
                     b.HasKey("Award");
 
-                    b.ToTable("awards");
+                    b.ToTable("award");
                 });
 
             modelBuilder.Entity("Group2_BookStore.Models.book", b =>
@@ -118,10 +118,10 @@ namespace Group2_BookStore.Migrations
                     b.Property<int>("price")
                         .HasColumnType("int");
 
-                    b.Property<string>("publish_date")
+                    b.Property<string>("publisher")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("publisher")
+                    b.Property<string>("pulish_date")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("size")
@@ -132,7 +132,7 @@ namespace Group2_BookStore.Migrations
 
                     b.HasKey("book_id");
 
-                    b.ToTable("books");
+                    b.ToTable("book");
                 });
 
             modelBuilder.Entity("Group2_BookStore.Models.book_award", b =>
@@ -143,7 +143,7 @@ namespace Group2_BookStore.Migrations
                     b.Property<int>("book_id")
                         .HasColumnType("int");
 
-                    b.ToTable("book_awards");
+                    b.ToTable("book_award");
                 });
 
             modelBuilder.Entity("Group2_BookStore.Models.cart", b =>
@@ -164,7 +164,7 @@ namespace Group2_BookStore.Migrations
 
                     b.HasKey("cart_id");
 
-                    b.ToTable("carts");
+                    b.ToTable("cart");
                 });
 
             modelBuilder.Entity("Group2_BookStore.Models.comment", b =>
@@ -188,7 +188,7 @@ namespace Group2_BookStore.Migrations
 
                     b.HasKey("commend_id");
 
-                    b.ToTable("comments");
+                    b.ToTable("comment");
                 });
 
             modelBuilder.Entity("Group2_BookStore.Models.customer", b =>
@@ -218,7 +218,7 @@ namespace Group2_BookStore.Migrations
 
                     b.HasKey("customer_id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("customer");
                 });
 
             modelBuilder.Entity("Group2_BookStore.Models.order", b =>
@@ -242,7 +242,7 @@ namespace Group2_BookStore.Migrations
 
                     b.HasKey("order_id");
 
-                    b.ToTable("orders");
+                    b.ToTable("order");
                 });
 
             modelBuilder.Entity("Group2_BookStore.Models.order_detail", b =>
@@ -266,7 +266,7 @@ namespace Group2_BookStore.Migrations
 
                     b.HasKey("order_detail_id");
 
-                    b.ToTable("order_details");
+                    b.ToTable("order_detail");
                 });
 
             modelBuilder.Entity("Group2_BookStore.Models.rate", b =>
@@ -287,7 +287,7 @@ namespace Group2_BookStore.Migrations
 
                     b.HasKey("rate_id");
 
-                    b.ToTable("rates");
+                    b.ToTable("rate");
                 });
 #pragma warning restore 612, 618
         }
