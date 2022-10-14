@@ -1,17 +1,17 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+
+#nullable disable
 
 namespace Group2_BookStore.Models
 {
-    public class address
+    public partial class Address
     {
-        [Key]
-        public int address_id { get; set; }
-        public string Address { get; set; }
-        public string customer_email { get; set; }
-        public string shipping_number_phone { get; set; }
+        public int AddressId { get; set; }
+        public string Address1 { get; set; }
+        public string CustomerEmail { get; set; }
+        public string ShippingNumberPhone { get; set; }
+
+        public virtual Customer CustomerEmailNavigation { get; set; }
     }
 }

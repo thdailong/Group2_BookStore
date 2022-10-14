@@ -25,7 +25,7 @@ namespace Group2_BookStore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AzureConnection")));
+            services.AddDbContext<BOOKSTOREContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AzureConnection")));
             services.AddControllersWithViews();
         }
 
