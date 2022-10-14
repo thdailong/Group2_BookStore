@@ -1,3 +1,10 @@
 @{
     ViewData["Title"] = "Index";
 }
+
+@foreach (var item in ViewBag.Books)
+{
+    <li>
+        @item.Name
+    </li>
+}

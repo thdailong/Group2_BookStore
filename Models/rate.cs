@@ -1,25 +1,18 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+
+#nullable disable
 
 namespace Group2_BookStore.Models
 {
-    public class rate
+    public partial class Rate
     {
-        [DisplayName("Rate ID")]
-        [Key]
-        public int rate_id { get; set; }
+        public int RateId { get; set; }
+        public string CustomerEmail { get; set; }
+        public int? BookId { get; set; }
+        public int? AmountStar { get; set; }
 
-        [DisplayName("Customer email")]
-        public string customer_email { get; set; }
-
-        [DisplayName("Book ID")]
-        public int book_id { get; set; }
-
-        [DisplayName("Ammount star")]
-        public int amount_star { get; set; }
+        public virtual Book Book { get; set; }
+        public virtual Customer CustomerEmailNavigation { get; set; }
     }
 }

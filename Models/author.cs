@@ -1,20 +1,25 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+
+#nullable disable
 
 namespace Group2_BookStore.Models
 {
-    public class author
+    public partial class Author
     {
-        [Key]
-        public int author_id { get; set; }
-        public string name { get; set; }
-        public string image { get; set; }
-        public string date_of_birth { get; set; }
-        public string country { get; set; }
-        public string detail { get; set; }
-        public string url { get; set; }
+        public Author()
+        {
+            Books = new List<Book>();
+        }
+
+        public int AuthorId { get; set; }
+        public string Name { get; set; }
+        public byte[] Image { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+        public string Country { get; set; }
+        public string Detail { get; set; }
+        public string Url { get; set; }
+
+        public virtual List<Book> Books { get; set; }
     }
 }

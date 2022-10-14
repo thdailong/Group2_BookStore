@@ -1,24 +1,24 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+
+#nullable disable
 
 namespace Group2_BookStore.Models
 {
-    public class order
+    public partial class Order
     {
-        [DisplayName("Order ID")]
-        [Key]
-        public int order_id { get; set; }
-        [DisplayName("Date of ID")]
-        public String order_date_time { get; set; }
-        [DisplayName("Customer ID")]
-        public string customer_email { get; set; }
-        [DisplayName("Address ID")]
-        public int address_id { get; set; }
-        [DisplayName("Status")]
-        public int status { get; set; }
+        public Order()
+        {
+            OrderDetails = new List<OrderDetail>();
+        }
+
+        public int OrderId { get; set; }
+        public DateTime? OrderDateTime { get; set; }
+        public string CustomerEmail { get; set; }
+        public int? AddressId { get; set; }
+        public int? Status { get; set; }
+
+        public virtual Customer CustomerEmailNavigation { get; set; }
+        public virtual List<OrderDetail> OrderDetails { get; set; }
     }
 }

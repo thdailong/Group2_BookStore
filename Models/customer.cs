@@ -1,34 +1,34 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+
+#nullable disable
 
 namespace Group2_BookStore.Models
 {
-    public class customer
+    public partial class Customer
     {
-        [DisplayName("Customer ID")]
-        [Key]
-        public int customer_id { get; set; }
+        public Customer()
+        {
+            Addresses = new List<Address>();
+            Carts = new List<Cart>();
+            Comments = new List<Comment>();
+            Orders = new List<Order>();
+            Rates = new List<Rate>();
+        }
 
-        [DisplayName("Full name")]
-        public string name { get; set; }
+        public string CustomerEmail { get; set; }
+        public string Name { get; set; }
+        public int? Sex { get; set; }
+        public string Image { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Password { get; set; }
+        public int Status { get; set; }
 
-        [DisplayName("Sex")]
-        public int sex { get; set; }
-
-        [DisplayName("Image URL")]
-        public string image { get; set; }
-
-        [DisplayName("Date of birth")]
-        public string date_of_birth { get; set; }
-
-        [DisplayName("Email address")]
-        public string email { get; set; }
-
-        [DisplayName("Phone number")]
-        public string phone_number { get; set; }
+        public virtual List<Address> Addresses { get; set; }
+        public virtual List<Cart> Carts { get; set; }
+        public virtual List<Comment> Comments { get; set; }
+        public virtual List<Order> Orders { get; set; }
+        public virtual List<Rate> Rates { get; set; }
     }
 }
