@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Group2_BookStore.DB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +28,10 @@ namespace Group2_BookStore
         {
             services.AddDbContext<BOOKSTOREContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AzureConnection")));
             services.AddControllersWithViews();
+            services.AddSession(options => {  
+                options.IdleTimeout = TimeSpan.FromMinutes(30); //30 minutes    
+            });  
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +53,8 @@ namespace Group2_BookStore
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
