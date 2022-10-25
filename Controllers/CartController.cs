@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Group2_BookStore.DataAccess;
 using Group2_BookStore.DB;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,15 +12,15 @@ namespace Group2_BookStore.Controllers
 {
     public class CartController : Controller
     {
-        private readonly BOOKSTOREContext _db;
+        private readonly CartDAO cartDAO;
 
         public CartController(BOOKSTOREContext db) {
-            this._db = db;
+            cartDAO = new CartDAO(db);
         }
 
         public IActionResult Index()
         {
-            var mylist = this._db.Books.ToList();
+            var mylist = cartDAO.GetCartList();
             ViewBag.Books = mylist;
             return View();
         }
