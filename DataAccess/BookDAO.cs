@@ -40,10 +40,10 @@ namespace DataAccess
             try
             {
                 book = context.Books.SingleOrDefault(c => c.BookId == BookId);
-                if(book != null){
-                var e = context.Entry(book);
-                e.Collection(c => c.OrderDetails).Load();
-                e.Reference(p => p.Category).Load();
+                if(book != null) {
+                    var e = context.Entry(book);
+                    e.Collection(c => c.OrderDetails).Load();
+                    e.Reference(p => p.Category).Load();
                 }
             }
             catch (Exception ex)
