@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Group2_BookStore.DB;
 using Group2_BookStore.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,15 +10,16 @@ namespace DataAccess
 {
     public class BookDAO
     {
-       
+       private readonly BOOKSTOREContext context; 
+        public BookDAO(BOOKSTOREContext _context) {
+            this.context = _context;
+        }
         public IEnumerable<Book> GetBookList()
         {
             var Books = new List<Book>();
             try
             {
-                using var context = new asgmt1Context();
-                Books = context.Books.ToList();
-                
+                Books = context.Books.ToList();                
             }
             catch (Exception ex)
             {
@@ -26,20 +28,30 @@ namespace DataAccess
             return Books;
         }
 
-
+        public IEnumerable<Book> GetBookListByCate(String category)
+        {
+            var Books = new List<Book>();
+            try
+            {
+                Books = context.Books.ToList();                
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return Books;
+        }
         public Book GetBookById(int BookId)
         {
             Book Book = null;
             try
             {
-                using var context = new asgmt1Context();
                 Book = context.Books.SingleOrDefault(c => c.BookId == BookId);
                 if(Book != null){
                 var e = context.Entry(Book);
                 e.Collection(c => c.OrderDetails).Load();
                 e.Reference(p => p.Category).Load();
                 }
-              
             }
             catch (Exception ex)
             {
@@ -55,7 +67,6 @@ namespace DataAccess
                 Book _Book = GetBookById(Book.BookId);
                 if (_Book == null)
                 {
-                    using var context = new asgmt1Context();
                     context.Books.Add(Book);
                     context.SaveChanges();
                 }
@@ -77,7 +88,6 @@ namespace DataAccess
                 Book _Book = GetBookById(Book.BookId);
                 if (_Book != null)
                 {
-                    using var context = new asgmt1Context();
                     context.Books.Update(Book);
                     context.SaveChanges();
                 }
@@ -99,7 +109,6 @@ namespace DataAccess
                 Book Book = GetBookById(BookId);
                 if (Book != null)
                 {
-                    using var context = new asgmt1Context();
                     context.Books.Remove(Book);
                     context.SaveChanges();
                 }
