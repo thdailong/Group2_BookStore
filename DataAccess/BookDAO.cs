@@ -17,14 +17,7 @@ namespace DataAccess
         public IEnumerable<Book> GetBookList()
         {
             var Books = new List<Book>();
-            try
-            {
-                Books = context.Books.ToList();                
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            Books = context.Books.ToList();                
             return Books;
         }
 
@@ -33,7 +26,7 @@ namespace DataAccess
             var Books = new List<Book>();
             try
             {
-                Books = context.Books.ToList();                
+                Books = context.Books.Where(p => p.Category == category).ToList();                
             }
             catch (Exception ex)
             {
@@ -43,12 +36,12 @@ namespace DataAccess
         }
         public Book GetBookById(int BookId)
         {
-            Book Book = null;
+            Book book = null;
             try
             {
-                Book = context.Books.SingleOrDefault(c => c.BookId == BookId);
-                if(Book != null){
-                var e = context.Entry(Book);
+                book = context.Books.SingleOrDefault(c => c.BookId == BookId);
+                if(book != null){
+                var e = context.Entry(book);
                 e.Collection(c => c.OrderDetails).Load();
                 e.Reference(p => p.Category).Load();
                 }
@@ -57,17 +50,17 @@ namespace DataAccess
             {
                 throw new Exception(ex.Message);
             }
-            return Book;
+            return book;
         }
 
-        public void AddNew(Book Book)
+        public void AddNew(Book book)
         {
             try
             {
-                Book _Book = GetBookById(Book.BookId);
+                Book _Book = GetBookById(book.BookId);
                 if (_Book == null)
                 {
-                    context.Books.Add(Book);
+                    context.Books.Add(book);
                     context.SaveChanges();
                 }
                 else
@@ -81,14 +74,14 @@ namespace DataAccess
             }
         }
 
-        public void Update(Book Book)
+        public void Update(Book book)
         {
             try
             {
-                Book _Book = GetBookById(Book.BookId);
+                Book _Book = GetBookById(book.BookId);
                 if (_Book != null)
                 {
-                    context.Books.Update(Book);
+                    context.Books.Update(book);
                     context.SaveChanges();
                 }
                 else
@@ -106,10 +99,10 @@ namespace DataAccess
         {
             try
             {
-                Book Book = GetBookById(BookId);
-                if (Book != null)
+                Book book = GetBookById(BookId);
+                if (book != null)
                 {
-                    context.Books.Remove(Book);
+                    context.Books.Remove(book);
                     context.SaveChanges();
                 }
                 else
@@ -122,6 +115,7 @@ namespace DataAccess
                 throw new Exception(ex.Message);
             }
         }
+
     }
 
 }
