@@ -60,7 +60,7 @@ namespace DataAccess
             return Book;
         }
 
-        public void AddNew(Book Book)
+        public void AddNew(Book book)
         {
             try
             {
