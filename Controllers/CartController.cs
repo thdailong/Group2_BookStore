@@ -18,8 +18,7 @@ namespace Group2_BookStore.Controllers
             cartDAO = new CartDAO(db);
         }
 
-        public IActionResult Index()
-        {
+        public IActionResult Index() {
             var mylist = cartDAO.GetCartList();
             ViewBag.Books = mylist;
             return View();
