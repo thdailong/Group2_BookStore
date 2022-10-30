@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "List of books";
+    ViewData["Title"] = "Search";
 }
 
 @{
@@ -59,6 +59,11 @@
             <div class="col-lg-9 col-md-7">
                 <div class="filter__item">
                     <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="filter__found">
+                                <h6><span>@ViewBag.totalBooks</span> books found</h6>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -85,12 +90,12 @@
                     @for (int i = 1; i <= ViewBag.totalPage; ++i)
                         if (i == ViewBag.pageNumber)
                         {
-                            <a asp-action="Index" asp-route-page="@i"
+                            <a asp-action="Search" asp-route-name="@ViewBag.name" asp-route-page="@i"
                         style="background: #EB4747;border-color: #EB4747; color: #ffffff;">@i</a>
                         }
                         else
                         {
-                            <a asp-action="Index" asp-route-page="@i">@i</a>
+                            <a asp-action="Search" asp-route-name="@ViewBag.name" asp-route-page="@i">@i</a>
                         }
                 </div>
             </div>

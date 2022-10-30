@@ -26,7 +26,7 @@
             <div class="col-lg-3 col-md-5">
                 <div class="sidebar">
                     <div class="sidebar__item">
-                        <h4>Department</h4>
+                        <h4>Category</h4>
                         <ul>
                             @foreach (var item in array)
                                 if (item == ViewBag.cat_name) {
@@ -64,6 +64,11 @@
             <div class="col-lg-9 col-md-7">
                 <div class="filter__item">
                     <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="filter__found">
+                                <h6><span>@ViewBag.totalBooks</span> books found</h6>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -90,12 +95,12 @@
                     @for (int i = 1; i <= ViewBag.totalPage; ++i)
                         if (i == ViewBag.pageNumber)
                         {
-                            <a asp-action="Index" asp-route-page="@i"
+                            <a asp-action="SearchOnCat" asp-route-cat_name="@ViewBag.cat_name" asp-route-page="@i"
                         style="background: #EB4747;border-color: #EB4747; color: #ffffff;">@i</a>
                         }
                         else
                         {
-                            <a asp-action="Index" asp-route-page="@i">@i</a>
+                            <a asp-action="SearchOnCat" asp-route-cat_name="@ViewBag.cat_name" asp-route-page="@i">@i</a>
                         }
                 </div>
             </div>
