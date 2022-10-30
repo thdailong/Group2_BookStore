@@ -21,6 +21,41 @@ namespace DataAccess
             return Books;
         }
 
+        /// <summary>
+        /// Return a list book base on page given(1 page contain 12 books)
+        /// </summary>
+        /// <param name="page">Number of page</param>
+        /// <returns>List of last books</returns>
+        public IEnumerable<Book> GetBooksListOnPage(int page) {
+            var Books = new List<Book>();
+            Books = context.Books.ToList();                
+            Books.Reverse();
+            int end = page*12+11;
+            if (end >= Books.Count-1) end = Books.Count-1;
+            var res = new List<Book>();
+            for (int i = page*12; i <= end; ++i) {
+                res.Add(Books[i]);
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// Return a list book base on page given(1 page contain 12 books)
+        /// </summary>
+        /// <param name="page">Number of page</param>
+        /// <returns>List of last books</returns>
+        public IEnumerable<Book> GetBooksListOnCatWithPage(int page, string cat_name) {
+            var Books = (List<Book>)GetBookListByCate(cat_name);
+            Books.Reverse();
+            int end = page*12+11;
+            if (end >= Books.Count-1) end = Books.Count-1;
+            var res = new List<Book>();
+            for (int i = page*12; i <= end; ++i) {
+                res.Add(Books[i]);
+            }
+            return res;
+        }
+
         public IEnumerable<Book> GetBookListByCate(String category)
         {
             var Books = new List<Book>();

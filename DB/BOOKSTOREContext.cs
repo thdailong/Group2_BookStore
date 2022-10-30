@@ -44,6 +44,10 @@ namespace Group2_BookStore.DB
                     .HasMaxLength(300)
                     .HasColumnName("address");
 
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .HasColumnName("name");
+
                 entity.Property(e => e.CustomerEmail)
                     .HasMaxLength(100)
                     .IsUnicode(false)
@@ -159,6 +163,8 @@ namespace Group2_BookStore.DB
                     .HasColumnName("size");
 
                 entity.Property(e => e.Status).HasColumnName("status");
+
+                entity.Property(e => e.quantity).HasColumnName("quantity");
 
                 entity.HasOne(d => d.Author)
                     .WithMany(p => p.Books)

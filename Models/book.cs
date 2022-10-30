@@ -27,6 +27,7 @@ namespace Group2_BookStore.Models
         public string BookFormat { get; set; }
         public string DetailBook { get; set; }
         public int? Status { get; set; }
+        public int? quantity {get; set;}
 
         public virtual Author Author { get; set; }
         public virtual List<Cart> Carts { get; set; }
