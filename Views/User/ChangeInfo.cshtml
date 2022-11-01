@@ -1,0 +1,102 @@
+@model Customer
+@{
+    ViewData["Title"] = "Change personal info";
+}
+
+@{
+    var list2 = new List<string>();
+    list2.Add("Female"); list2.Add("Male");
+}
+
+<!-- Product Section Begin -->
+<section class="product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-5">
+                <div class="sidebar">
+                    <div class="sidebar__item">
+                        <h4>User profile</h4>
+                        <ul>
+                            <li>
+                                <img src="~/img/customers/default_user.jpeg" alt="User image" style="width: 50%;">
+                            </li>
+                            <li><a asp-action="Index">Profile details</a></li>
+                            <li><a asp-action="ChangePassword">Change password</a></li>
+                            <li><a asp-action="Address">Addresses</a></li>
+                            <li><a asp-action="Orders">Orders</a></li>
+                            <li><a asp-action="Logout">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-7">
+                <div class="filter__item">
+                    <div class="row">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <h3 style="margin-bottom: 15px;">Change personal info</h3>
+                </div>
+                <form asp-action="Change" method="post" style="margin-left:-15px">
+                    <div class="form-group">
+                        <label for="CustomerEmail">User email</label><br>
+                        <input asp-for="CustomerEmail" readonly>
+                        <span asp-validation-for="CustomerEmail" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="Name">User name</label><br>
+                        <input asp-for="Name" required>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Sex">Sex</label><br>
+                        <select name="Sex">
+                            @for (int i = 0; i <= 1; i++)
+                                if (Model.Sex == i)
+                                {
+                                    <option value="@i" selected>@list2[i]</option>
+                                }
+                                else
+                                {
+                                    <option value="@i">@list2[i]</option>
+                                }
+                        </select>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="form-group">
+                        <label for="Image">Image url</label><br>
+                        <input asp-for="Image">
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="DateOfBirth">Date of birth</label><br>
+                        <input asp-for="DateOfBirth" required type="date" min="1900-01-01" max="2017-01-01">
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="PhoneNumber">Phone number</label><br>
+                        <input asp-for="PhoneNumber" required minlength="9" maxlength="11">
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="text-danger">
+                        @ViewBag.Message
+                    </div>
+                    <div class="text-success">
+                        @ViewBag.success
+                    </div>
+                    <button type="submit" class="primary-btn">UPDATE</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Product Section End -->
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

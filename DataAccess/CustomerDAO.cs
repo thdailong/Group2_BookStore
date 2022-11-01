@@ -9,8 +9,9 @@ namespace DataAccess
 {
     public class CustomerDAO
     {
-        private readonly BOOKSTOREContext context; 
-        public CustomerDAO(BOOKSTOREContext _context) {
+        private readonly BOOKSTOREContext context;
+        public CustomerDAO(BOOKSTOREContext _context)
+        {
             this.context = _context;
         }
         public IEnumerable<Customer> GetCustomerList()
@@ -33,10 +34,12 @@ namespace DataAccess
             Customer Customer = null;
             try
             {
-                Customer = context.Customers.SingleOrDefault(c => c.CustomerEmail == CustomerEmail);
-                if (Customer != null) {
+                Customer = context.Customers.Find(CustomerEmail);
+                if (Customer != null)
+                {
                     var e = context.Entry(Customer);
                     e.Collection(c => c.Orders).Load();
+                    e.Collection(c => c.Addresses).Load();
                 }
             }
             catch (Exception ex)
@@ -46,18 +49,22 @@ namespace DataAccess
             return Customer;
         }
 
-        public Customer CustomerLogin(string Email, string Password) {
-            try {
-                var customer = from Customer in context.Customers 
-                    where Customer.CustomerEmail == Email 
-                    where Customer.Password == Password 
-                    select Customer;
-                if (customer == null) {
+        public Customer CustomerLogin(string Email, string Password)
+        {
+            try
+            {
+                var customer = from Customer in context.Customers
+                               where Customer.CustomerEmail == Email
+                               where Customer.Password == Password
+                               select Customer;
+                if (customer == null)
+                {
                     return null;
                 }
                 return customer.FirstOrDefault();
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw new Exception(ex.Message);
             }
         }
@@ -90,7 +97,14 @@ namespace DataAccess
                 Customer _Customer = GetCustomerByEmail(Customer.CustomerEmail);
                 if (_Customer != null)
                 {
-                    context.Customers.Update(Customer);
+                    _Customer.Name = Customer.Name;
+                    _Customer.Sex = Customer.Sex;
+                    _Customer.Image = Customer.Image;
+                    _Customer.DateOfBirth = Customer.DateOfBirth;
+                    _Customer.PhoneNumber = Customer.PhoneNumber;
+                    _Customer.Password = Customer.Password;
+                    _Customer.Status = Customer.Status;
+                    context.Customers.Update(_Customer);
                     context.SaveChanges();
                 }
                 else
@@ -125,12 +139,14 @@ namespace DataAccess
             }
         }
 
-        public Boolean RegisterOrNot(string Email) {
+        public Boolean RegisterOrNot(string Email)
+        {
             Customer Customer = null;
             try
             {
                 Customer = context.Customers.SingleOrDefault(c => c.CustomerEmail == Email);
-                if (Customer != null) {
+                if (Customer != null)
+                {
                     var e = context.Entry(Customer);
                     e.Collection(c => c.Orders).Load();
                     return true;
