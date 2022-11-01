@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using DataAccess;
+using Group2_BookStore.DataAccess;
 using Group2_BookStore.DB;
 using Group2_BookStore.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +17,12 @@ namespace Group2_BookStore.Controllers
     {
         private readonly CustomerDAO customerDAO;
 
+        private readonly AddressDAO addressDAO;
+
         public UserController(BOOKSTOREContext db)
         {
             customerDAO = new CustomerDAO(db);
+            addressDAO = new AddressDAO(db);
         }
         public IActionResult index()
         {
@@ -112,7 +116,32 @@ namespace Group2_BookStore.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult InsertAddress(Address address)
+        {
+            var customerEmail = "anhtn@fpt.edu.vn";            
 
+            address.CustomerEmail = customerEmail;
+            address.AddressId = 0;
+            if (ModelState.IsValid) {
+                addressDAO.AddAddress(address);
+            }
+
+            return RedirectToAction("Address");
+        }
+        
+        public IActionResult DeleteAddress(int AddressId)
+        {
+            var customerEmail = "anhtn@fpt.edu.vn";
+
+            var address = addressDAO.getAddressById(AddressId);
+            if (address == null) return NotFound();
+            if (address.CustomerEmail != customerEmail) return NotFound();
+            TempData["Message"] = "Can not delete due to some order use that address";
+
+            return RedirectToAction("Address");
+        }
         
         
     }

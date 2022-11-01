@@ -3499,3 +3499,8 @@ ol {
 .form-group input {
 	width: 50%;
 }
+
+.button-no-background {
+	background: none;
+	border: none;
+}
