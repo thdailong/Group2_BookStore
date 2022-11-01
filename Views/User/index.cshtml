@@ -1,0 +1,67 @@
+@{
+    ViewData["Title"] = "index";
+    var sex = "";
+}
+
+@if (ViewBag.customer.Sex == 0)
+{
+    sex = "Female";
+}
+else
+{
+    sex = "Male";
+}
+
+<!-- Product Section Begin -->
+<section class="product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-5">
+                <div class="sidebar">
+                    <div class="sidebar__item">
+                        <h4>User profile</h4>
+                        <ul>
+                            <li>
+                                <img src="~/img/customers/default_user.jpeg" alt="User image" style="width: 50%;">
+                            </li>
+                            <li><b><a asp-action="Index">Profile details</a></b></li>
+                            <li><a asp-action="ChangePassword">Change password</a></li>
+                            <li><a asp-action="Address">Addresses</a></li>
+                            <li><a asp-action="Orders">Orders</a></li>
+                            <li><a asp-action="Logout">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-7">
+                <div class="filter__item">
+                    <div class="row">
+                    </div>
+                </div>
+                <div class="row">
+                    <h3 style="margin-bottom: 15px;">@ViewBag.customer.Name</h3>
+                </div>
+                <div class="row">
+                    <label>User mail: </label>
+                    @ViewBag.customer.CustomerEmail
+                </div>
+                <div class="row">
+                    <label>Sex: </label>
+                    @sex
+                </div>
+                <div class="row">
+                    <label>Date of birth: </label>
+                    @ViewBag.date
+                </div>
+                <div class="row">
+                    <label>Phone number: </label>
+                    @ViewBag.customer.PhoneNumber
+                </div>
+                <div class="row">
+                    <a asp-action="ChangeInfo" class="primary-btn">EDIT</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Product Section End -->

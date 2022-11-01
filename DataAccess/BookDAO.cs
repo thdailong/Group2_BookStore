@@ -10,15 +10,76 @@ namespace DataAccess
 {
     public class BookDAO
     {
-       private readonly BOOKSTOREContext context; 
-        public BookDAO(BOOKSTOREContext _context) {
+        private readonly BOOKSTOREContext context;
+        public BookDAO(BOOKSTOREContext _context)
+        {
             this.context = _context;
         }
         public IEnumerable<Book> GetBookList()
         {
             var Books = new List<Book>();
-            Books = context.Books.ToList();                
+            Books = context.Books.ToList();
             return Books;
+        }
+
+        /// <summary>
+        /// Return a list book base on page given(1 page contain 12 books)
+        /// </summary>
+        /// <param name="page">Number of page</param>
+        /// <returns>List of last books</returns>
+        public IEnumerable<Book> GetBooksListOnPage(int page)
+        {
+            var Books = new List<Book>();
+            Books = context.Books.ToList();
+            Books.Reverse();
+            int end = page * 12 + 11;
+            if (end >= Books.Count - 1) end = Books.Count - 1;
+            var res = new List<Book>();
+            for (int i = page * 12; i <= end; ++i)
+            {
+                res.Add(Books[i]);
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// Return a list book base on page given(1 page contain 12 books)
+        /// </summary>
+        /// <param name="page">Number of page</param>
+        /// <returns>List of last books</returns>
+        public IEnumerable<Book> GetBooksListOnCatWithPage(int page, string cat_name)
+        {
+            var Books = (List<Book>)GetBookListByCate(cat_name);
+            Books.Reverse();
+            int end = page * 12 + 11;
+            if (end >= Books.Count - 1) end = Books.Count - 1;
+            var res = new List<Book>();
+            for (int i = page * 12; i <= end; ++i)
+            {
+                res.Add(Books[i]);
+            }
+            return res;
+        }
+
+        public IEnumerable<Book> GetBooksSearch(string name)
+        {
+            var books = context.Books.ToList();
+            var res = from book in books where book.Name.Contains(name) select book;
+            return res.ToList();
+        }
+
+        public IEnumerable<Book> GetBooksSearchOnPage(int page, string name)
+        {
+            var Books = (List<Book>)GetBooksSearch(name);
+            Books.Reverse();
+            int end = page * 12 + 11;
+            if (end >= Books.Count - 1) end = Books.Count - 1;
+            var res = new List<Book>();
+            for (int i = page * 12; i <= end; ++i)
+            {
+                res.Add(Books[i]);
+            }
+            return res;
         }
 
         public IEnumerable<Book> GetBookListByCate(String category)
@@ -26,7 +87,7 @@ namespace DataAccess
             var Books = new List<Book>();
             try
             {
-                Books = context.Books.Where(p => p.Category == category).ToList();                
+                Books = context.Books.Where(p => p.Category == category).ToList();
             }
             catch (Exception ex)
             {
@@ -40,7 +101,8 @@ namespace DataAccess
             try
             {
                 book = context.Books.SingleOrDefault(c => c.BookId == BookId);
-                if(book != null) {
+                if (book != null)
+                {
                     var e = context.Entry(book);
                     e.Collection(c => c.OrderDetails).Load();
                     e.Reference(p => p.Category).Load();

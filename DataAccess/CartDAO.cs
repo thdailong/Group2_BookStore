@@ -9,8 +9,9 @@ namespace Group2_BookStore.DataAccess
 {
     public class CartDAO
     {
-        private readonly BOOKSTOREContext context; 
-        public CartDAO(BOOKSTOREContext _context) {
+        private readonly BOOKSTOREContext context;
+        public CartDAO(BOOKSTOREContext _context)
+        {
             this.context = _context;
         }
 
@@ -18,9 +19,41 @@ namespace Group2_BookStore.DataAccess
         /// This one is for testing purpose only
         /// </summary>
         /// <returns>List of books</returns>
-        public IEnumerable<Book> GetCartList() {
+        public IEnumerable<Book> GetCartList()
+        {
             var lis = context.Books.ToList();
             return lis;
+        }
+
+        /// <summary>
+        /// Return list of cart base on customerEmail
+        /// </summary>
+        /// <param name="customerEmail"></param>
+        /// <returns>list of cart</returns>
+        public IEnumerable<Cart> GetCartsOnCusEmail(string customerEmail)
+        {
+            var list = context.Carts.Where(c => c.CustomerEmail == customerEmail).ToList();
+            foreach (var item in list)
+            {
+                var e = context.Entry(item);
+                e.Reference(c => c.Book).Load();
+            }
+            return list;
+        }
+
+        public Cart GetCartOnId(int CartId) {
+            var cart = context.Carts.SingleOrDefault(c => c.CartId == CartId);
+            return cart;
+        }
+
+        public void UpdateCart(Cart cart) {
+            context.Carts.Update(cart);
+            context.SaveChanges();
+        }
+
+        public void DeleteCart(Cart cart) {
+            context.Carts.Remove(cart);
+            context.SaveChanges();
         }
 
         /// <summary>
@@ -30,19 +63,23 @@ namespace Group2_BookStore.DataAccess
         /// <param name="BookId">Id of the book</param>
         /// <param name="Quantity">Quantity of the book</param>
         /// <param name="CustomerEmail">Email of the user</param>
-        public void AddBookToCart(int BookId, int Quantity, string CustomerEmail) {
+        public void AddBookToCart(int BookId, int Quantity, string CustomerEmail)
+        {
             var bookInCart = new Cart();
             bookInCart.BookId = BookId;
             bookInCart.CustomerEmail = CustomerEmail;
             bookInCart.Quantity = Quantity;
             var finding = this.context.Carts.Where(c => c.CustomerEmail == CustomerEmail && c.BookId == BookId).SingleOrDefault();
-            if (finding == null) {
+            if (finding == null)
+            {
                 this.context.Carts.Add(bookInCart);
             }
-            else {
-                finding.Quantity+=Quantity;
+            else
+            {
+                finding.Quantity += Quantity;
             }
             this.context.SaveChanges();
         }
+
     }
 }

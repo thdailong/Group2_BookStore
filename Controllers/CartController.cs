@@ -14,20 +14,52 @@ namespace Group2_BookStore.Controllers
     {
         private readonly CartDAO cartDAO;
 
-        public CartController(BOOKSTOREContext db) {
+        public CartController(BOOKSTOREContext db)
+        {
             cartDAO = new CartDAO(db);
         }
 
-        public IActionResult Index() {
-            var mylist = cartDAO.GetCartList();
-            ViewBag.Books = mylist;
+        public IActionResult Index()
+        {
+            //Email from session(Wait for update)
+            var customerEmail = "anhtn@fpt.edu.vn";
+
+            var mylist = cartDAO.GetCartsOnCusEmail(customerEmail);
+            ViewBag.mylist = mylist;
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult UpdateCart(int[] CartId, int[] quantity)
         {
-            return View("Error!");
+            var customerEmail = "anhtn@fpt.edu.vn";
+
+            for (int i = 0; i < CartId.Length; ++i)
+            {
+                var find = cartDAO.GetCartOnId(CartId[i]);
+                if (find == null) return NotFound();
+                if (find.CustomerEmail != customerEmail) return NotFound();
+            }
+
+            for (int i = 0; i < CartId.Length; ++i)
+            {
+                var find = cartDAO.GetCartOnId(CartId[i]);
+                find.Quantity = quantity[i];
+                cartDAO.UpdateCart(find);
+            }
+            return RedirectToAction("Index");
         }
+
+        public IActionResult DeleteCart(int CartId) 
+        {
+            var customerEmail = "anhtn@fpt.edu.vn";
+            
+            var find = cartDAO.GetCartOnId(CartId);
+            if (find != null && find.CustomerEmail == customerEmail) cartDAO.DeleteCart(find);
+
+            return RedirectToAction("Index");
+        }
+        
+
+
     }
 }
