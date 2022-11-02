@@ -25,6 +25,7 @@ namespace Group2_BookStore.DataAccess
         }
         public IEnumerable<OrderDetail> GetListOrderDetailOnStatus(int status) {
             var res = this.context.OrderDetails.Where(c => c.Order.Status == status).ToList();
+            this.context.Books.ToList();
             return res;
         }
 
@@ -47,7 +48,19 @@ namespace Group2_BookStore.DataAccess
             }
             return (ls, ls1, ls2); 
         }
-        
+        public (int, int) overall_static() {
+            int a1 = 0, a2 = 0, a3 = 0;
+            a1 = this.context.Orders.Select(c => c.CustomerEmail).Distinct().Count();
+            a2 = this.context.Orders.Select(c => c.OrderId).Distinct().Count();
+            return (a1, a2);
+        }
+        public (int, int) overall_static_2() {
+            int a1 = 0, a2 = 0;
+            a1 = this.context.OrderDetails.Select(c => (int)c.Quantity).Sum();
+            a2 = this.context.OrderDetails.Select(c => (int)c.Quantity*(int)c.Price).Sum();
+            return (a1, a2);
+        }
+
         
         /// <summary>
         /// Get an order detail on book Id and Order Id
