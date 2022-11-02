@@ -20,7 +20,8 @@ namespace Group2_BookStore.DataAccess
         /// </summary>
         /// <param name="AddressId"></param>
         /// <returns>address model</returns>
-        public Address getAddressById(int AddressId) {
+        public Address getAddressById(int AddressId)
+        {
             var address = context.Addresses.Find(AddressId);
             return address;
         }
@@ -29,7 +30,8 @@ namespace Group2_BookStore.DataAccess
         /// Return a list of address model
         /// </summary>
         /// <returns>list address</returns>
-        public IEnumerable<Address> getListAddress() {
+        public IEnumerable<Address> getListAddress()
+        {
             var list = context.Addresses.ToList();
             return list;
         }
@@ -38,7 +40,8 @@ namespace Group2_BookStore.DataAccess
         /// Add address model to database
         /// </summary>
         /// <param name="address"></param>
-        public void AddAddress(Address address) {
+        public void AddAddress(Address address)
+        {
             var id = context.Addresses.Max(c => c.AddressId) + 1;
             address.AddressId = id;
             context.Addresses.Add(address);
@@ -49,12 +52,22 @@ namespace Group2_BookStore.DataAccess
         /// Delete address on address Id
         /// </summary>
         /// <param name="addressId"></param>
-        public void DeleteAddress(int addressId) {
+        public void DeleteAddress(int addressId)
+        {
             var address = getAddressById(addressId);
-            if (address != null) {
+            if (address != null)
+            {
                 context.Addresses.Remove(address);
                 context.SaveChanges();
             }
+        }
+
+        public void UpdateAddress(Address address)
+        {
+
+            context.Entry(address).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+            context.Set<Address>().Update(address);
+            context.SaveChanges();
         }
     }
 }

@@ -1,0 +1,109 @@
+@{
+    ViewData["Title"] = "Details Order";
+}
+
+
+<link rel="stylesheet"
+    href="https://preview.colorlib.com/theme/bootstrap/css-table-13/A.fonts,,_icomoon,,_style.css+css,,_owl.carousel.min.css+css,,_bootstrap.min.css+css,,_style.css,Mcc.wLmjsC5shx.css.pagespeed.cf.81Hcn-jJsk.css" />
+
+<!-- Product Section Begin -->
+<section class="product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-5">
+                <div class="sidebar">
+                    <div class="sidebar__item">
+                        <h4>User profile</h4>
+                        <ul>
+                            <li>
+                                <img src="~/img/customers/default_user.jpeg" alt="User image" style="width: 50%;">
+                            </li>
+                            <li><a asp-action="Index">Profile details</a></li>
+                            <li><a asp-action="ChangePassword">Change password</a></li>
+                            <li><a asp-action="Address">Addresses</a></li>
+                            <li><b style="font-weight: bold;"><a asp-action="Orders">Orders</a></b></li>
+                            <li><a asp-action="Logout">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-7">
+                <div class="filter__item">
+                    <div class="row">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <h3 style="margin-bottom: 15px;">List of order detail of order in day @ViewBag.data</h3>
+                </div>
+
+                <div class="table-responsive" style="margin-left:-15px">
+                    <table class="table custom-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Book</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.list)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.Book.Name
+                                    </td>
+                                    <td>
+                                        @item.Quantity
+                                    </td>
+                                    <td>
+                                        @item.Price
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Product Section End -->
+
+
+<!-- Modal announce -->
+<div class="modal fade" id="MyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Error</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="MyModalBody">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script type="text/javascript">
+    function openModal(strMessage) {
+        var myDiv = document.getElementById("MyModalBody");
+        myDiv.innerHTML = strMessage;
+        $('#MyModal').modal('show');
+    }
+
+    $(document).ready(function () {
+        var msg = '@TempData["Message"]';
+        if (msg) openModal(msg);
+    })
+</script>
+}
