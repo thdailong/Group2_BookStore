@@ -53,10 +53,15 @@ namespace Group2_BookStore.Controllers
                     }
                 }
             }
+
             ViewBag.catelist = array;
             ViewBag.quantity_cate = quantity_cate;
             ViewBag.revenue_cate = revenue_cate;
-            detailDAO.GetQuantityOnDate(DateTime.Parse("2022-10-30"), DateTime.Parse("2022-11-01"));
+            //detailDAO.GetQuantityOnDate(DateTime.Parse("2022-10-30"), DateTime.Parse("2022-11-01"));
+            detailDAO.GetQuantityOnDate(DateTime.Today.AddDays(-6), DateTime.Today);   
+            (ViewBag.ActiveUser, ViewBag.OrderCount) = detailDAO.overall_static();
+            (ViewBag.Quantity_total, ViewBag.Revenue_total) = detailDAO.overall_static_2();
+            
             return View();
         }
         public IActionResult Book() {
