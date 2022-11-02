@@ -1,3 +1,13 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    string? CustomerEmail = HttpContextAccessor.HttpContext.Session.GetString("CustomerEmail");
+    int? Status = HttpContextAccessor.HttpContext.Session.GetInt32("Status");
+    string? Name = HttpContextAccessor.HttpContext.Session.GetString("Name");
+    ViewBag.Name = Name;
+    ViewBag.CustomerEmail = CustomerEmail;
+    ViewBag.Status = (Status == null ? -1 : Status.Value);
+
     Layout = "_Layout";
 }

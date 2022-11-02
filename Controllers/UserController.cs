@@ -7,6 +7,7 @@ using DataAccess;
 using Group2_BookStore.DataAccess;
 using Group2_BookStore.DB;
 using Group2_BookStore.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -28,7 +29,8 @@ namespace Group2_BookStore.Controllers
         }
         public IActionResult index()
         {
-            var customerEmail = "anhtn@fpt.edu.vn";
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
 
             var cus = customerDAO.GetCustomerByEmail(customerEmail);
             ViewBag.customer = cus;
@@ -38,9 +40,45 @@ namespace Group2_BookStore.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult login(string CustomerEmail, string Password)
+        {
+            if (HttpContext.Session.GetInt32("Role") != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            var cus = customerDAO.CustomerLogin(CustomerEmail, Password);
+            if (cus == null)
+            {
+                TempData["Message"] = "Wrong email or password";
+                return RedirectToAction("Index", "Home");
+            }
+            HttpContext.Session.SetInt32("Status", cus.Status);
+            HttpContext.Session.SetString("CustomerEmail", cus.CustomerEmail);
+            HttpContext.Session.SetString("Name", cus.Name);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult logout()
+        {
+            HttpContext.Session.Remove("Status");
+            HttpContext.Session.Remove("CustomerEmail");
+            HttpContext.Session.Remove("Name");
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public string getUser()
+        {
+            var userMail = HttpContext.Session.GetString("CustomerEmail");
+            return userMail;
+        }
+
         public IActionResult ChangeInfo()
         {
-            var customerEmail = "anhtn@fpt.edu.vn";
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
 
             var cus = customerDAO.GetCustomerByEmail(customerEmail);
 
@@ -51,7 +89,8 @@ namespace Group2_BookStore.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Change(Customer customer)
         {
-            var customerEmail = "anhtn@fpt.edu.vn";
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
 
             if (customer.CustomerEmail != customerEmail) return NotFound();
             var cus = customerDAO.GetCustomerByEmail(customerEmail);
@@ -70,7 +109,8 @@ namespace Group2_BookStore.Controllers
 
         public IActionResult ChangePassword()
         {
-            var customerEmail = "anhtn@fpt.edu.vn";
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
 
             return View();
         }
@@ -79,7 +119,8 @@ namespace Group2_BookStore.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ChangePassword(string oldPass, string newPass, string confirmPass)
         {
-            var customerEmail = "anhtn@fpt.edu.vn";
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
 
             var cus = customerDAO.GetCustomerByEmail(customerEmail);
             if (cus.Password != oldPass)
@@ -114,7 +155,8 @@ namespace Group2_BookStore.Controllers
 
         public IActionResult Address()
         {
-            var customerEmail = "anhtn@fpt.edu.vn";
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
 
             var cus = customerDAO.GetCustomerByEmail(customerEmail);
             var listAddress = cus.Addresses;
@@ -128,7 +170,8 @@ namespace Group2_BookStore.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult InsertAddress(Address address)
         {
-            var customerEmail = "anhtn@fpt.edu.vn";
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
 
             address.CustomerEmail = customerEmail;
             address.AddressId = 0;
@@ -142,7 +185,8 @@ namespace Group2_BookStore.Controllers
 
         public IActionResult DeleteAddress(int AddressId)
         {
-            var customerEmail = "anhtn@fpt.edu.vn";
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
 
             var address = addressDAO.getAddressById(AddressId);
             if (address == null) return NotFound();
@@ -154,7 +198,8 @@ namespace Group2_BookStore.Controllers
 
         public IActionResult EditAddress(int AddressId)
         {
-            var customerEmail = "anhtn@fpt.edu.vn";
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
 
             var address = addressDAO.getAddressById(AddressId);
             if (address == null) return NotFound();
@@ -167,7 +212,8 @@ namespace Group2_BookStore.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditAddress(Address address)
         {
-            var customerEmail = "anhtn@fpt.edu.vn";
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
 
             var _address = addressDAO.getAddressById(address.AddressId);
             if (_address == null) return NotFound();
@@ -187,7 +233,8 @@ namespace Group2_BookStore.Controllers
 
         public IActionResult Orders()
         {
-            var customerEmail = "anhtn@fpt.edu.vn";
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
 
             var listOrderCancel = orderDAO.checkOrderOnEmailAndStatus(customerEmail, 0);
             listOrderCancel.Reverse();
@@ -211,7 +258,8 @@ namespace Group2_BookStore.Controllers
 
         public IActionResult DeleteOrder(int OrderId)
         {
-            var customerEmail = "anhtn@fpt.edu.vn";
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
 
             var order = orderDAO.GetOrderById(OrderId);
             if (order.CustomerEmail != customerEmail && order.Status != 1) return NotFound();
@@ -222,7 +270,8 @@ namespace Group2_BookStore.Controllers
 
         public IActionResult DetailOrder(int OrderId)
         {
-            var customerEmail = "anhtn@fpt.edu.vn";
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
 
             var order = orderDAO.GetOrderIdWithDetails(OrderId);
             if (order.CustomerEmail != customerEmail && order.Status != 1) return NotFound();

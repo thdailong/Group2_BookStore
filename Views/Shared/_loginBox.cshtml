@@ -1,0 +1,27 @@
+<!-- Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form asp-controller="User" asp-action="login" method="post" id="formLogin">
+                    <h3>LOGIN</h3>
+                    <hr>
+                    <div class="form-group">
+                        <label for="Name">Email</label><br>
+                        <input placeholder="Enter email" name="CustomerEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Password</label><br>
+                        <input name="Password" placeholder="Enter address" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" value="submit" class="btn btn-primary" style="width: 100%;">
+                            Login
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
