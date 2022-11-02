@@ -19,9 +19,9 @@ namespace Group2_BookStore.DataAccess
         /// This one is for testing purpose only
         /// </summary>
         /// <returns>List of books</returns>
-        public IEnumerable<Book> GetCartList()
+        public IEnumerable<Cart> GetCartList()
         {
-            var lis = context.Books.ToList();
+            var lis = context.Carts.ToList();
             return lis;
         }
 
@@ -72,6 +72,9 @@ namespace Group2_BookStore.DataAccess
             var finding = this.context.Carts.Where(c => c.CustomerEmail == CustomerEmail && c.BookId == BookId).SingleOrDefault();
             if (finding == null)
             {
+                var list = (List<Cart>)GetCartList();
+                var Id = list.Max(c => c.CartId) + 1;
+                bookInCart.CartId = Id;
                 this.context.Carts.Add(bookInCart);
             }
             else

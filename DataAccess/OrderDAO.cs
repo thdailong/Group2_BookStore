@@ -116,5 +116,11 @@ namespace Group2_BookStore.DataAccess
             this.context.Orders.Update(order);
             this.context.SaveChanges();
         }
+
+        public void AddOrder(Order order) {
+            order.OrderId = context.Orders.ToList().Max(c => c.OrderId) + 1;
+            context.Add(order);
+            context.SaveChanges();
+        }
     }
 }
