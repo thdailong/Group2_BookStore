@@ -1,0 +1,187 @@
+@{
+    ViewData["Title"] = "Book Detail";
+}
+@model Book
+
+<section class="about-details spad">
+        <div class="container">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-12 col-md-6  book__detail__container">
+                        <div class=" col-lg-3 col-md-12  book__detail__img">
+                            <img src=@Model.Image alt="">
+                        </div>
+                        <div class="col-lg-7 col-md-12 book__detail__infomation">
+                            <p class="book__detail__name">
+                                @Model.Name
+                            </p>
+                            <p class="book__detail__detail">
+                                <b>Author: </b> @Model.Author.Name
+                            </p>
+                            <p class="book__detail__detail">
+                                <b>Nhà Xuất Bản: </b> @Model.Publisher
+                            </p>
+                            <br>
+                            <p class="book__detail__add"> 100% Genuine Product</p>
+                            <a class="book__detail__add" href="#"> <i class="fa fa-heart"></i> Add to Favorite</a>
+                            </p>
+                            <hr>
+                            <p class="book__detail__price">@Model.Price VND</p>
+                            <a class="book__detail__btnbuy" href="#">Buy Now</a>
+                            <hr>
+                            <p class="book__detail__star"> 4 <i class="text-danger fa fa-star"></i><i
+                                    class=" text-danger fa fa-star"></i><i class="text-danger fa fa-star"></i><i
+                                    class="text-danger fa fa-star"></i><i class="fa fa-star"></i></p>
+                            <p class="book__detail__sold"> 42 Sold</p>
+                            <hr>
+                            <div class="cart__quantity__container" style="padding: 1rem;">
+
+                                <div class="cart__quantity__decrease">
+                                    -
+                                </div>
+                                <div class="cart__quantity">
+                                    <b class="text-danger">3</b>
+                                </div>
+                                <div class="cart__quantity__increase">
+                                    +
+                                </div>
+                                <p class="book__detail__availible">@Model.quantity products are available</p>
+                                <a class="book__detail__btnadd" href="#">Add to Cart</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Details Section Begin -->
+    <sction class="product-details spad">
+        <div class="container">
+            <div class="col-lg-12">
+
+
+                <div class="product__details__tab">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                                aria-selected="true">Infomation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
+                                aria-selected="false">Introduction</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
+                                aria-selected="false">Review</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                            <div class="product__details__tab__desc">
+                                <h6>Infomation</h6>
+                                <table class="table table-striped table-bordered">
+                                    <tr>
+                                        <td class="col-lg-4 col-md-6">Author</td>
+                                        <td>@Model.Author.Name</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Publisher</td>
+                                        <td>@Model.Publisher</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Size</td>
+                                        <td>@Model.Size</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Category</td>
+                                        <td>@Model.Category</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Publication Date</td>
+                                        <td>@Model.PulishDate</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Page Number</td>
+                                        <td>@Model.PageNumber</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tabs-2" role="tabpanel">
+                            <div class="product__details__tab__desc">
+
+                                <h6>Introduction</h6>
+                                <p> @Model.DetailBook
+                                </p>
+
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tabs-3" role="tabpanel">
+                            <div class="product__details__tab__desc">
+                                <h6>Rating</h6>
+                                <p class=""> Please Rating for this product <i class="text-danger fa fa-star"></i><i
+                                        class=" text-danger fa fa-star"></i><i class="text-danger fa fa-star"></i><i
+                                        class="text-danger fa fa-star"></i><i class="fa fa-star"></i></p>
+
+                                <h6>Comment(3)</h6>
+                                <div class="detail__book__comment__container">
+                                    <form action="" method="post">
+                                        <input type="text" name="comment" class="detail__book__write__comment"
+                                            placeholder="Comment..." id="comment">
+                                        <input type="submit" name="btncmt" class="detail__book__btncmt" id="btncmt"
+                                            value="Comment">
+                                    </form>
+                                    <hr>
+                                    <div class="detail__book__comment">
+                                        <img class="detail__book__person" src="/img/about/VN3.jpg" alt="">
+                                        <div class="detail__book__content">
+                                            <p class="detail__book__name">Thái Văn Nghị</p>
+                                            <p class="detail__book__date">25/11/2002</p>
+                                            <p>This is my favorite Book.</p>
+                                        </div>
+                                    </div>
+                                    <div class="detail__book__comment">
+                                        <img class="detail__book__person" src="/img/about/DL3.jpg" alt="">
+                                        <div class="detail__book__content">
+                                            <p class="detail__book__name">Trương Huỳn Đại Long</p>
+                                            <p class="detail__book__date">5/11/2002</p>
+                                            <p>This is my favorite Book.</p>
+                                        </div>
+                                    </div>
+                                    <div class="detail__book__comment">
+                                        <img class="detail__book__person" src="/img/about/PH3.jpg" alt="">
+                                        <div class="detail__book__content">
+                                            <p class="detail__book__name">Nguyễn Võ Phước Huy</p>
+                                            <p class="detail__book__date">5/11/2002</p>
+                                            <p>This is my favorite Book.</p>
+                                        </div>
+                                    </div>
+                                    <div class="detail__book__comment">
+                                        <img class="detail__book__person" src="/img/about/DL3.jpg" alt="">
+                                        <div class="detail__book__content">
+                                            <p class="detail__book__name"> Trương Huỳn Đại Long</p>
+                                            <p class="detail__book__date">5/11/2002</p>
+                                            <p>Delivery took too long.</p>
+
+                                        </div>
+                                    </div>
+                                    <div class="detail__book__comment">
+                                        <img class="detail__book__person" src="/img/about/PH3.jpg" alt="">
+                                        <div class="detail__book__content">
+                                            <p class="detail__book__name">Nguyễn Võ Phước Huy</p>
+                                            <p class="detail__book__date">5/11/2002</p>
+                                            <p>Very disappointed with the purchase of the book.</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </section>
+        <!-- Product Details Section End -->

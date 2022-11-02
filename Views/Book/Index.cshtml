@@ -2,21 +2,6 @@
     ViewData["Title"] = "List of books";
 }
 
-@{
-    var array = new List<string>() {
-"Motivation",
-"Fantasy",
-"Sci-Fi",
-"Mystery",
-"Manga",
-"Romance",
-"Travel",
-"Guide/How to",
-"Self-help",
-"Textbook",
-"Comic"
-};
-}
 
 <!-- Product Section Begin -->
 <section class="product spad">
@@ -27,7 +12,7 @@
                     <div class="sidebar__item">
                         <h4>Category</h4>
                         <ul>
-                            @foreach (var item in array)
+                            @foreach (var item in ViewBag.CatArray)
                             {
                                 <li><a asp-action="SearchOnCat" asp-route-cat_name="@item">@item</a></li>
                             }
