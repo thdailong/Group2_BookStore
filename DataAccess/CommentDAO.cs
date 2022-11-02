@@ -32,6 +32,8 @@ namespace Group2_BookStore.DataAccess
         /// <param name="comment">Comment model</param>
         public void AddComment(Comment comment)
         {
+            var list = context.Comments.ToList();
+            comment.CommendId = list.Max(c => c.CommendId) + 1;
             this.context.Comments.Add(comment);
             this.context.SaveChanges();
         }
@@ -55,6 +57,11 @@ namespace Group2_BookStore.DataAccess
         public IEnumerable<Comment> GetListCommentOnBookId(int BookId)
         {
             var res = context.Comments.Where(c => c.BookId == BookId).ToList();
+            foreach (var item in res)
+            {
+                var entry = context.Entry(item);
+                entry.Reference(c => c.CustomerEmailNavigation).Load();
+            }
             return res;
         }
 

@@ -70,7 +70,8 @@
                                             @giaca
                                         </td>
                                         <td class="shoping__cart__item__close">
-                                            <a asp-action="DeleteCart" asp-route-CartId="@item.CartId"><span class="icon_close"></span></a>
+                                            <a asp-action="DeleteCart" asp-route-CartId="@item.CartId"><span
+                                                class="icon_close"></span></a>
                                         </td>
                                     </tr>
                                 }
@@ -93,7 +94,7 @@
             <div class="col-lg-6">
                 <div class="shoping__continue">
                     <div class="shoping__discount">
-                        
+
                     </div>
                 </div>
             </div>
@@ -103,7 +104,7 @@
                     <ul>
                         <li>Total <span>@total</span></li>
                     </ul>
-                    <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+                    <a asp-action="Checkout" class="primary-btn">PROCEED TO CHECKOUT</a>
                 </div>
             </div>
         </div>

@@ -7,6 +7,7 @@ using DataAccess;
 using Group2_BookStore.DataAccess;
 using Group2_BookStore.DB;
 using Group2_BookStore.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -71,8 +72,29 @@ namespace Group2_BookStore.Controllers
             var book = bookDAO.GetBookById(BookId);
             var listCom = (List<Comment>)commentDAO.GetListCommentOnBookId(BookId);
             ViewBag.listCom = listCom;
+            ViewBag.commentCount = listCom.Count();
             return View(book);
         }
+
+        public IActionResult AddComment(string ContentComment, int BookId)
+        {
+            var customerEmail = HttpContext.Session.GetString("CustomerEmail");
+            if (customerEmail == null)
+            {
+                TempData["Message"] = "You need to login so as comment";
+                return RedirectToAction("BookDetail", "Book", new { BookId = BookId });
+            }
+            var comment = new Comment();
+            comment.BookId = BookId;
+            comment.ContentComment = ContentComment;
+            comment.TimeComment = DateTime.Now;
+            comment.CustomerEmail = customerEmail;
+            commentDAO.AddComment(comment);
+            TempData["Success"] = "Add comment successfully";
+
+            return RedirectToAction("BookDetail", "Book", new { BookId = BookId });
+        }
+
 
     }
 }

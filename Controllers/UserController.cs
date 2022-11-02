@@ -19,6 +19,7 @@ namespace Group2_BookStore.Controllers
         private readonly CustomerDAO customerDAO;
         private readonly AddressDAO addressDAO;
         private readonly OrderDAO orderDAO;
+        private readonly CartDAO cartDAO;
 
 
         public UserController(BOOKSTOREContext db)
@@ -26,6 +27,7 @@ namespace Group2_BookStore.Controllers
             customerDAO = new CustomerDAO(db);
             addressDAO = new AddressDAO(db);
             orderDAO = new OrderDAO(db);
+            cartDAO = new CartDAO(db);
         }
         public IActionResult index()
         {
@@ -56,6 +58,7 @@ namespace Group2_BookStore.Controllers
             HttpContext.Session.SetInt32("Status", cus.Status);
             HttpContext.Session.SetString("CustomerEmail", cus.CustomerEmail);
             HttpContext.Session.SetString("Name", cus.Name);
+            HttpContext.Session.SetInt32("NumberItem", cartDAO.GetCartsOnCusEmail(CustomerEmail).Count());
 
             return RedirectToAction("Index", "Home");
         }
@@ -65,6 +68,7 @@ namespace Group2_BookStore.Controllers
             HttpContext.Session.Remove("Status");
             HttpContext.Session.Remove("CustomerEmail");
             HttpContext.Session.Remove("Name");
+            HttpContext.Session.Remove("NumberItem");
 
             return RedirectToAction("Index", "Home");
         }
@@ -181,6 +185,23 @@ namespace Group2_BookStore.Controllers
             }
 
             return RedirectToAction("Address");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult InsertAddressFromCheckOut(Address address)
+        {
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
+
+            address.CustomerEmail = customerEmail;
+            address.AddressId = 0;
+            if (ModelState.IsValid)
+            {
+                addressDAO.AddAddress(address);
+            }
+
+            return RedirectToAction("Checkout", "Cart");
         }
 
         public IActionResult DeleteAddress(int AddressId)

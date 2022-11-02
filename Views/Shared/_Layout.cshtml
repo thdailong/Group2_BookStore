@@ -34,7 +34,7 @@
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
-            <a href="#"><img src="img/logo.png" alt=""></a>
+            <a asp-action="Index" asp-controller="Home"><img src="img/logo.png" alt=""></a>
         </div>
         <div class="humberger__menu__cart">
             <ul>
@@ -61,15 +61,13 @@
             <ul>
                 <li class="active"><a asp-action="Index" asp-controller="Home">Home</a></li>
                 <li><a asp-action="Index" asp-controller="Book">Shop</a></li>
-                <li><a href="#">Pages</a>
+                <li><a href="#">Cart</a>
                     <ul class="header__menu__dropdown">
-                        <li><a href="./shop-details.html">Shop Details</a></li>
-                        <li><a href="./shoping-cart.html">Shoping Cart</a></li>
-                        <li><a href="./checkout.html">Check Out</a></li>
-                        <li><a href="./blog-details.html">Blog Details</a></li>
+                        <li><a asp-action="Index" asp-controller="Cart">View cart</a></li>
+                        <li><a asp-action="Checkout" asp-controller="Cart">Checkout</a></li>
                     </ul>
                 </li>
-                <li><a href="./blog.html">Blog</a></li>
+                <li><a asp-action="Index" asp-controller="User">Profile</a></li>
                 <li><a href="./contact.html">Contact</a></li>
             </ul>
         </nav>
@@ -101,17 +99,15 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li><a href="./index.html">Home</a></li>
-                            <li class="active"><a href="./shop-grid.html">Shop</a></li>
-                            <li><a href="#">Pages</a>
+                            <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+                            <li class="active"><a asp-action="Index" asp-controller="Book">Shop</a></li>
+                            <li><a href="#">Cart</a>
                                 <ul class="header__menu__dropdown">
-                                    <li><a href="./shop-details.html">Shop Details</a></li>
-                                    <li><a href="./shoping-cart.html">Shoping Cart</a></li>
-                                    <li><a href="./checkout.html">Check Out</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
+                                    <li><a asp-action="Index" asp-controller="Cart">View cart</a></li>
+                                    <li><a asp-action="Checkout" asp-controller="Cart">Checkout</a></li>
                                 </ul>
                             </li>
-                            <li><a href="./blog.html">Blog</a></li>
+                            <li><a asp-action="Index" asp-controller="User">Profile</a></li>
                             <li><a href="./contact.html">Contact</a></li>
                         </ul>
                     </nav>
@@ -119,8 +115,8 @@
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-                            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                            <li><a asp-action="Index" asp-controller="Cart"><i class="fa fa-shopping-bag"></i>
+                                    <span>@ViewBag.NumberItem</span></a></li>
                         </ul>
                         <div class="header__cart__price">
                             @if (ViewBag.CustomerEmail == null)
@@ -157,7 +153,8 @@
                         <ul>
                             @foreach (var item in ViewBag.CatArray)
                             {
-                                <li><a asp-action="SearchOnCat" asp-controller="Book" asp-route-cat_name="@item">@item</a></li>
+                                <li><a asp-action="SearchOnCat" asp-controller="Book" asp-route-cat_name="@item">@item</a>
+                                </li>
                             }
                         </ul>
                     </div>
