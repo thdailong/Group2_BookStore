@@ -71,8 +71,25 @@ namespace Group2_BookStore.Controllers
             var orderlist = orderDAO.GetOrderList();
             return View(orderlist);
         }
+
+
         public ActionResult EditBook(int? id)
         {
+             var catelist = new List<string>() {
+            "Motivation",
+            "Fantasy",
+            "Sci-Fi",
+            "Mystery",
+            "Manga",
+            "Romance",
+            "Travel",
+            "Guide/How to",
+            "Self-help",
+            "Textbook",
+            "Comic"
+            };
+            ViewBag.authorlist = authorDAO.GetAuthorList();
+            ViewBag.catelist = catelist;
             if (id == null)
             {
                 return NotFound();
@@ -119,9 +136,14 @@ namespace Group2_BookStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateBook(Book book) {
 
-            bookDAO.AddNew(book);
-    
-            return RedirectToAction(nameof(Book));
+             
+                if (ModelState.IsValid)
+                {
+                    bookDAO.AddNew(book);
+                }
+                return RedirectToAction(nameof(Book));
+            
+           
         }
 
         

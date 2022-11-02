@@ -102,6 +102,7 @@ namespace DataAccess
             Book book = null;
             try
             {
+                var tmp = context.Authors.ToList();
                 book = context.Books.SingleOrDefault(c => c.BookId == BookId);
                 if (book != null)
                 {
