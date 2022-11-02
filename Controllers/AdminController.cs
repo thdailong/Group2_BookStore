@@ -118,10 +118,9 @@ namespace Group2_BookStore.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateBook(Book book) {
-            if (ModelState.IsValid)
-            {
-                bookDAO.AddNew(book);
-            }
+
+            bookDAO.AddNew(book);
+    
             return RedirectToAction(nameof(Book));
         }
 

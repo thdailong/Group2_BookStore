@@ -19,6 +19,7 @@ namespace DataAccess
         {
             var Books = new List<Book>();
             Books = context.Books.OrderByDescending(x=>x.quantity).ToList();
+            var tmp = context.Authors.ToList();
             return Books;
         }
 
@@ -64,6 +65,7 @@ namespace DataAccess
         public IEnumerable<Book> GetBooksSearch(string name)
         {
             var books = context.Books.ToList();
+            var tmp = context.Authors.ToList();
             var res = from book in books where book.Name.Contains(name) select book;
             return res.ToList();
         }
@@ -105,7 +107,6 @@ namespace DataAccess
                 {
                     var e = context.Entry(book);
                     e.Collection(c => c.OrderDetails).Load();
-                    e.Reference(p => p.Category).Load();
                 }
             }
             catch (Exception ex)
@@ -119,6 +120,7 @@ namespace DataAccess
         {
             try
             {
+                book.BookId = this.context.Books.ToList().Max(c => c.BookId) +1;
                 Book _Book = GetBookById(book.BookId);
                 if (_Book == null)
                 {
