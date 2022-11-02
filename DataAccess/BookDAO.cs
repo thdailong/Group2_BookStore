@@ -18,7 +18,7 @@ namespace DataAccess
         public IEnumerable<Book> GetBookList()
         {
             var Books = new List<Book>();
-            Books = context.Books.ToList();
+            Books = context.Books.OrderByDescending(x=>x.quantity).ToList();
             return Books;
         }
 

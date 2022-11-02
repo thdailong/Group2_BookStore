@@ -74,5 +74,11 @@ namespace Group2_BookStore.DataAccess
             this.context.Orders.Update(order);
             this.context.SaveChanges();
         }
+        public IEnumerable<Order> GetOrderList()
+        {
+            var Orders = new List<Order>();
+            Orders = context.Orders.OrderByDescending(x=>x.OrderDateTime).ToList();
+            return Orders;
+        }
     }
 }
