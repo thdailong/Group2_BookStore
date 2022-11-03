@@ -114,7 +114,7 @@ namespace Group2_BookStore.Controllers
             {
                 bookDAO.Update(book);
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Book));
         }
         public IActionResult CreateBook()
         {
@@ -140,13 +140,8 @@ namespace Group2_BookStore.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateBook(Book book) {
-
-             
-                if (ModelState.IsValid)
-                {
-                    bookDAO.AddNew(book);
-                }
-                return RedirectToAction(nameof(Book));
+            bookDAO.AddNew(book);
+            return RedirectToAction(nameof(Book));
             
            
         }
@@ -198,6 +193,35 @@ namespace Group2_BookStore.Controllers
             }
             return RedirectToAction(nameof(Book));
         }
+            public ActionResult DeleteCustomer(string? Email){ 
+            if (Email == null)
+            {
+                return NotFound();
+            }
+            var customer = customerDAO.GetCustomerByEmail(Email);
+             if (customer == null)
+            {
+                return NotFound();
+            }
+            return View(customer);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteCustomers(string Email)
+        {  
+            try
+            {
+                customerDAO.Remove(Email);
+                return RedirectToAction(nameof(Customer));
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = ex.Message;
+                return RedirectToAction(nameof(DeleteCustomer));
+            }
+        }
+
 
         
         public ActionResult DetailCustomer(String? Email)

@@ -36,10 +36,10 @@
                 <td style="display: flex; justify-content: center;">
                         <img style="width: 100px; height: auto; border-radius: 5px;" src="@Html.Encode(item.Image)" />
                 </td>
-                <td>
-                    @Html.ActionLink("Edit", "EditCustomer", new { id = item.CustomerEmail }, new{  @style="background-color: #379237; border-radius: 10px; color: #F8FFDB; padding: 5px; text-decoration: none;" }) 
-                    
-                    @Html.ActionLink("Details", "DetailCustomer", new { id = item.CustomerEmail }, new{  @style="background-color: #FD841F; border-radius: 10px; color: #001253; padding: 5px; text-decoration: none;" }) 
+                <td>                   
+                    @Html.ActionLink("Details", "DetailCustomer", new { Email = item.CustomerEmail }, new{  @style="background-color: #FD841F; border-radius: 10px; color: #001253; padding: 5px; text-decoration: none;" }) 
+                    @Html.ActionLink("Delete", "DeleteCustomer", new { Email = item.CustomerEmail }, new{  @style="background-color: #D2001A; border-radius: 10px; color: #F8FFDB; padding: 5px; text-decoration: none;" }) 
+
             </tr>
         }
             </tbody>

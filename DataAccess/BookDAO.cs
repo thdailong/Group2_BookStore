@@ -141,23 +141,9 @@ namespace DataAccess
 
         public void Update(Book book)
         {
-            try
-            {
-                Book _Book = GetBookById(book.BookId);
-                if (_Book != null)
-                {
-                    context.Books.Update(book);
-                    context.SaveChanges();
-                }
-                else
-                {
-                    throw new Exception("The Book does not exist.");
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+                context.Books.Update(book);
+                context.SaveChanges();
+    
         }
 
         public void Remove(int BookId)

@@ -1,6 +1,6 @@
 @model Customer
 @{
-    ViewData["Title"] = "DetailCustomer";
+    ViewData["Title"] = "DeleteCustomer";
      Layout = "layout__admin";
 }
 
@@ -11,11 +11,11 @@
                 <li class="breadcrumb-item"><a asp-controller="Admin" asp-action="Index">Dashboard</a></li>
 
         <li class="breadcrumb-item">All Customers</li>
-        <li class="breadcrumb-item active">Detail Customers</li>
+        <li class="breadcrumb-item active">Delete Customers</li>
     </ol>
 
     <div class="d-flex justify-content-center align-items-center" style="100vh">
-    <h1 class="text-primary">Detail Customer</h1>
+    <h1 class="text-primary">Delete Customer</h1>
     <div style="width: .5rem;"> </div>
     </div>
     <hr />
@@ -53,13 +53,14 @@
          <tr>
             <td> @Html.DisplayNameFor(model => model.Status)</td>
             <td> @(Model.Status == 1 ? ("Customer") : "Manager")</td>
-        </tr>
-        
-    </table>
-       
+        </tr>    
+    </table>   
     </div>
-
     </div>    
+    <form asp-action="DeleteCustomers" method="post" onclick="return confirm('Are you sure you want to do that?');">
+        <input value="@Model.CustomerEmail" name="Email" hidden>
+        <input type="submit" value="Delete" class="btn btn-danger" />
+    </form>
  <div>
         <a class="btn btn-primary" asp-action="Book">Back to List</a>
-        </div>
+</div>

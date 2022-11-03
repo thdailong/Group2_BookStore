@@ -64,7 +64,7 @@
             </div>
              <div class="form-group">
                 <label asp-for="PulishDate" class="control-label"></label>
-                <input asp-for="PulishDate" class="form-control" />
+                <input type = "Date" asp-for="PulishDate" class="form-control" />
                 <span asp-validation-for="PulishDate" class="text-danger"></span>
             </div>
              <div class="form-group">
@@ -102,12 +102,13 @@
              <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
                <select asp-for="Status" class="form-control">
-                        <option value="0">
-                                Out of Order
-                        </option>
                         <option value="1">
                                 On Stock
                         </option>
+                        <option value="0">
+                                Out of Order
+                        </option>
+                        
                 </select>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
