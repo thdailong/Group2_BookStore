@@ -19,6 +19,7 @@ namespace Group2_BookStore.Models
         public int? Status { get; set; }
 
         public virtual Customer CustomerEmailNavigation { get; set; }
+        public virtual Address Address {get; set;}
         public virtual List<OrderDetail> OrderDetails { get; set; }
     }
 }

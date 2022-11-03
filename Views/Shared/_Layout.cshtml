@@ -34,7 +34,7 @@
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
-            <a href="#"><img src="img/logo.png" alt=""></a>
+            <a asp-action="Index" asp-controller="Home"><img src="img/logo.png" alt=""></a>
         </div>
         <div class="humberger__menu__cart">
             <ul>
@@ -61,15 +61,13 @@
             <ul>
                 <li class="active"><a asp-action="Index" asp-controller="Home">Home</a></li>
                 <li><a asp-action="Index" asp-controller="Book">Shop</a></li>
-                <li><a href="#">Pages</a>
+                <li><a href="#">Cart</a>
                     <ul class="header__menu__dropdown">
-                        <li><a href="./shop-details.html">Shop Details</a></li>
-                        <li><a href="./shoping-cart.html">Shoping Cart</a></li>
-                        <li><a href="./checkout.html">Check Out</a></li>
-                        <li><a href="./blog-details.html">Blog Details</a></li>
+                        <li><a asp-action="Index" asp-controller="Cart">View cart</a></li>
+                        <li><a asp-action="Checkout" asp-controller="Cart">Checkout</a></li>
                     </ul>
                 </li>
-                <li><a href="./blog.html">Blog</a></li>
+                <li><a asp-action="Index" asp-controller="User">Profile</a></li>
                 <li><a href="./contact.html">Contact</a></li>
             </ul>
         </nav>
@@ -91,42 +89,6 @@
 
     <!-- Header Section Begin -->
     <header class="header">
-        <div class="header__top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="header__top__left">
-                            <ul>
-                                <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
-                                <li>Free Shipping for all Order of $99</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="header__top__right">
-                            <div class="header__top__right__social">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-linkedin"></i></a>
-                                <a href="#"><i class="fa fa-pinterest-p"></i></a>
-                            </div>
-                            <div class="header__top__right__language">
-                                <img src="img/language.png" alt="">
-                                <div>English</div>
-                                <span class="arrow_carrot-down"></span>
-                                <ul>
-                                    <li><a href="#">Spanis</a></li>
-                                    <li><a href="#">English</a></li>
-                                </ul>
-                            </div>
-                            <div class="header__top__right__auth">
-                                <a href="#"><i class="fa fa-user"></i> Login</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="container">
             <div class="row">
                 <div class="col-lg-3">
@@ -137,17 +99,15 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li><a href="./index.html">Home</a></li>
-                            <li class="active"><a href="./shop-grid.html">Shop</a></li>
-                            <li><a href="#">Pages</a>
+                            <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+                            <li class="active"><a asp-action="Index" asp-controller="Book">Shop</a></li>
+                            <li><a href="#">Cart</a>
                                 <ul class="header__menu__dropdown">
-                                    <li><a href="./shop-details.html">Shop Details</a></li>
-                                    <li><a href="./shoping-cart.html">Shoping Cart</a></li>
-                                    <li><a href="./checkout.html">Check Out</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
+                                    <li><a asp-action="Index" asp-controller="Cart">View cart</a></li>
+                                    <li><a asp-action="Checkout" asp-controller="Cart">Checkout</a></li>
                                 </ul>
                             </li>
-                            <li><a href="./blog.html">Blog</a></li>
+                            <li><a asp-action="Index" asp-controller="User">Profile</a></li>
                             <li><a href="./contact.html">Contact</a></li>
                         </ul>
                     </nav>
@@ -155,10 +115,21 @@
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-                            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                            <li><a asp-action="Index" asp-controller="Cart"><i class="fa fa-shopping-bag"></i>
+                                    <span>@ViewBag.NumberItem</span></a></li>
                         </ul>
-                        <div class="header__cart__price">item: <span>$150.00</span></div>
+                        <div class="header__cart__price">
+                            @if (ViewBag.CustomerEmail == null)
+                            {
+                                <button type="button" class="button-no-background" data-toggle="modal"
+                                data-target="#loginModal"><i class="fa fa-user"></i> Login</button>
+                            }
+                            else
+                            {
+                                <a asp-action="Index" asp-controller="User">@ViewBag.Name</a>
+                            }
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -180,17 +151,11 @@
                             <span>All departments</span>
                         </div>
                         <ul>
-                            <li><a href="#">Fresh Meat</a></li>
-                            <li><a href="#">Vegetables</a></li>
-                            <li><a href="#">Fruit & Nut Gifts</a></li>
-                            <li><a href="#">Fresh Berries</a></li>
-                            <li><a href="#">Ocean Foods</a></li>
-                            <li><a href="#">Butter & Eggs</a></li>
-                            <li><a href="#">Fastfood</a></li>
-                            <li><a href="#">Fresh Onion</a></li>
-                            <li><a href="#">Papayaya & Crisps</a></li>
-                            <li><a href="#">Oatmeal</a></li>
-                            <li><a href="#">Fresh Bananas</a></li>
+                            @foreach (var item in ViewBag.CatArray)
+                            {
+                                <li><a asp-action="SearchOnCat" asp-controller="Book" asp-route-cat_name="@item">@item</a>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
@@ -208,6 +173,8 @@
             </div>
         </div>
     </section>
+    @Html.Partial("_loginBox")
+
     <!-- Hero Section End -->
     <div class="container">
         <main role="main" class="pb-3">

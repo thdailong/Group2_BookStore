@@ -9,7 +9,7 @@ namespace Group2_BookStore.DB
 {
     public partial class BOOKSTOREContext : DbContext
     {
-       
+
         public BOOKSTOREContext(DbContextOptions<BOOKSTOREContext> options)
             : base(options)
         {
@@ -320,6 +320,11 @@ namespace Group2_BookStore.DB
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.CustomerEmail)
                     .HasConstraintName("FK_order_customer");
+
+                entity.HasOne(d => d.Address)
+                    .WithMany(p => p.Orders)
+                    .HasForeignKey(d => d.AddressId)
+                    .HasConstraintName("FK_Order_Address");
             });
 
             modelBuilder.Entity<OrderDetail>(entity =>

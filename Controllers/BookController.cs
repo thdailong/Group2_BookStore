@@ -4,7 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using DataAccess;
+using Group2_BookStore.DataAccess;
 using Group2_BookStore.DB;
+using Group2_BookStore.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -13,10 +16,12 @@ namespace Group2_BookStore.Controllers
     public class BookController : Controller
     {
         private readonly BookDAO bookDAO;
+        private readonly CommentDAO commentDAO;
 
         public BookController(BOOKSTOREContext db)
         {
             bookDAO = new BookDAO(db);
+            commentDAO = new CommentDAO(db);
         }
 
         public IActionResult Index(int? page)
@@ -60,6 +65,34 @@ namespace Group2_BookStore.Controllers
             ViewBag.name = name;
             ViewBag.totalBooks = tmp.Count();
             return View();
+        }
+
+        public IActionResult BookDetail(int BookId)
+        {
+            var book = bookDAO.GetBookById(BookId);
+            var listCom = (List<Comment>)commentDAO.GetListCommentOnBookId(BookId);
+            ViewBag.listCom = listCom;
+            ViewBag.commentCount = listCom.Count();
+            return View(book);
+        }
+
+        public IActionResult AddComment(string ContentComment, int BookId)
+        {
+            var customerEmail = HttpContext.Session.GetString("CustomerEmail");
+            if (customerEmail == null)
+            {
+                TempData["Message"] = "You need to login so as comment";
+                return RedirectToAction("BookDetail", "Book", new { BookId = BookId });
+            }
+            var comment = new Comment();
+            comment.BookId = BookId;
+            comment.ContentComment = ContentComment;
+            comment.TimeComment = DateTime.Now;
+            comment.CustomerEmail = customerEmail;
+            commentDAO.AddComment(comment);
+            TempData["Success"] = "Add comment successfully";
+
+            return RedirectToAction("BookDetail", "Book", new { BookId = BookId });
         }
 
 

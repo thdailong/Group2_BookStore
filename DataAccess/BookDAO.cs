@@ -108,6 +108,8 @@ namespace DataAccess
                 {
                     var e = context.Entry(book);
                     e.Collection(c => c.OrderDetails).Load();
+                    e.Collection(c => c.Rates).Load();
+                    e.Reference(p => p.Author).Load();
                 }
             }
             catch (Exception ex)

@@ -1,0 +1,169 @@
+@{
+    ViewData["Title"] = "Checkout";
+    int total = 0;
+}
+@model Address
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Checkout</h2>
+                    <div class="breadcrumb__option">
+                        <a href="./index.html">Home</a>
+                        <span>Checkout</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Checkout Section Begin -->
+<section class="checkout spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h6><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click here</a> to enter your code
+                </h6>
+            </div>
+        </div>
+        <div class="checkout__form">
+            <h4>Billing Details<button type="button" class="fa fa-plus-circle button-no-background" data-toggle="modal"
+                    data-target="#exampleModal"></button></h4>
+            <form asp-action="CheckOut" method="post">
+                <div class="row">
+                    <div class="col-lg-8 col-md-6">
+                        @if (ViewBag.Check == 0)
+                        {
+                            <h3>In case to make an order, you need to have at least 1 address</h3>
+                        }
+                        <div class="table-responsive" style="margin-left:-15px">
+                            <table class="table custom-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Choose</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Phone number</th>
+                                        <th scope="col">Address</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in ViewBag.listAddress)
+                                    {
+                                        <tr>
+                                            <th scope="row">
+                                                <label class="control control--checkbox">
+                                                    <input type="checkbox" name="AddressId" value="@item.AddressId" />
+                                                    <div class="control__indicator"></div>
+                                                </label>
+                                            </th>
+                                            <td>
+                                                @item.Name
+                                            </td>
+                                            <td>
+                                                @item.ShippingNumberPhone
+                                            </td>
+                                            <td>
+                                                @item.Address1
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="checkout__order">
+                            <h4>Your Order</h4>
+                            <div class="checkout__order__products">Products <span>Total</span></div>
+                            <ul>
+                                @foreach (var item in ViewBag.list)
+                                {
+                                    <li>
+                                        @{
+                                            var data = item.Book.Price * item.Quantity;
+                                            total += data;
+                                        }
+                                        @item.Book.Name <span>@data VND</span>
+                                    </li>
+                                }
+
+                            </ul>
+                            <div class="checkout__order__total">Total <span>@total VND</span></div>
+                            <button type="submit" class="site-btn">PLACE ORDER</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<!-- Checkout Section End -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add new address</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="InsertAddressFromCheckOut" asp-controller="User" method="post" id="formAdd">
+                    <div class="form-group">
+                        <label for="Name">Name recepient</label><br>
+                        <input asp-for="Name" placeholder="Enter name of recepient" required>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Address</label><br>
+                        <input asp-for="Address1" placeholder="Enter address" required>
+                        <span asp-validation-for="Address1" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Shipping number phone</label><br>
+                        <input asp-for="ShippingNumberPhone" placeholder="Enter phone number" minlength="9"
+                            maxlength="11" required>
+                        <span asp-validation-for="ShippingNumberPhone" class="text-danger"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" form="formAdd" value="Submit">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script type="text/javascript">
+    $("input:checkbox").on('click', function () {
+        // in the handler, 'this' refers to the box clicked on
+        var $box = $(this);
+        if ($box.is(":checked")) {
+            // the name of the box is retrieved using the .attr() method
+            // as it is assumed and expected to be immutable
+            var group = "input:checkbox[name='" + $box.attr("name") + "']";
+            // the checked state of the group/box on the other hand will change
+            // and the current value is retrieved using .prop() method
+            $(group).prop("checked", false);
+            $box.prop("checked", true);
+        } else {
+            $box.prop("checked", false);
+        }
+    });
+</script>
+}

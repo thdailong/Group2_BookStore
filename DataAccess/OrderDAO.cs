@@ -9,8 +9,9 @@ namespace Group2_BookStore.DataAccess
 {
     public class OrderDAO
     {
-        private readonly BOOKSTOREContext context; 
-        public OrderDAO(BOOKSTOREContext _context) {
+        private readonly BOOKSTOREContext context;
+        public OrderDAO(BOOKSTOREContext _context)
+        {
             this.context = _context;
         }
 
@@ -25,13 +26,33 @@ namespace Group2_BookStore.DataAccess
             return tmp;
         }
 
+        public Order GetOrderIdWithDetails(int Id) {
+            var order = GetOrderById(Id);
+            var entry = context.Entry(order);
+            entry.Collection(c => c.OrderDetails).Load();
+            foreach (var item in order.OrderDetails)
+            {
+                var e = context.Entry(item);
+                e.Reference(c => c.Book).Load();
+            }
+            return order;
+        }
+
+        public void DeleteOrder(int Id)
+        {
+            var order = GetOrderById(Id);
+            if (order != null) context.Orders.Remove(order);
+            context.SaveChanges();
+        }
+
         /// <summary>
         /// Delete an order in history base on the owner of the order and order id
         /// </summary>
         /// <param name="CustomerEmail">Customer email</param>
         /// <param name="OrderId">Id of order</param>
         /// <returns>True for successful delete the order, False for otherwise</returns>
-        public Boolean DeleteHistoryOrderOwnUser(string CustomerEmail, int OrderId) {
+        public Boolean DeleteHistoryOrderOwnUser(string CustomerEmail, int OrderId)
+        {
             Order res = GetOrderById(OrderId);
             if (res == null) return false;
             if (res.CustomerEmail != CustomerEmail) return false;
@@ -49,7 +70,8 @@ namespace Group2_BookStore.DataAccess
         /// </summary>
         /// <param name="Status">the status of order</param>
         /// <returns>List of order</returns>
-        public IEnumerable<Order> CheckOrderBaseOnStatus(int Status) {
+        public IEnumerable<Order> CheckOrderBaseOnStatus(int Status)
+        {
             var result = this.context.Orders.Where(c => c.Status == Status).ToList();
             return result;
         }
@@ -60,9 +82,27 @@ namespace Group2_BookStore.DataAccess
         /// <param name="CustomerEmail">User email</param>
         /// <param name="Status">Status of the order</param>
         /// <returns>List of order</returns>
-        public IEnumerable<Order> checkOrderOnEmailAndStatus(string CustomerEmail, int Status) {
+        public IEnumerable<Order> checkOrderOnEmailAndStatus(string CustomerEmail, int Status)
+        {
             var result = this.context.Orders.Where(c => c.CustomerEmail == CustomerEmail && c.Status == Status).ToList();
+            foreach (var item in result)
+            {
+                var entry = context.Entry(item);
+                entry.Reference(d => d.Address).Load();
+            }
             return result;
+        }
+
+        /// <summary>
+        /// Check if any orders that use the address id
+        /// </summary>
+        /// <param name="AddressId"></param>
+        /// <returns>True for exist, False for otherwise</returns>
+        public Boolean checkIfUseAddress(int AddressId)
+        {
+            var result = this.context.Orders.Where(c => c.AddressId == AddressId).ToList();
+            if (result.Count != 0) return true;
+            return false;
         }
 
         /// <summary>
@@ -76,6 +116,7 @@ namespace Group2_BookStore.DataAccess
             this.context.Orders.Update(order);
             this.context.SaveChanges();
         }
+
         public IEnumerable<Order> GetOrderList()
         {
             var Orders = new List<Order>();
@@ -87,6 +128,13 @@ namespace Group2_BookStore.DataAccess
         {
             var result = this.context.Orders.Where(c => c.CustomerEmail == email).ToList();
             return result;
+        }
+
+
+        public void AddOrder(Order order) {
+            order.OrderId = context.Orders.ToList().Max(c => c.OrderId) + 1;
+            context.Add(order);
+            context.SaveChanges();
         }
     }
 }

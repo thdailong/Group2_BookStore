@@ -1,3 +1,32 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    var array = new List<string>() {
+"Motivation",
+"Fantasy",
+"Sci-Fi",
+"Mystery",
+"Manga",
+"Romance",
+"Travel",
+"Guide/How to",
+"Self-help",
+"Textbook",
+"Comic"
+};
+    ViewBag.CatArray = array;
+}
+
+@{
+    string? CustomerEmail = HttpContextAccessor.HttpContext.Session.GetString("CustomerEmail");
+    int? Status = HttpContextAccessor.HttpContext.Session.GetInt32("Status");
+    string? Name = HttpContextAccessor.HttpContext.Session.GetString("Name");
+    int? NumberItem = HttpContextAccessor.HttpContext.Session.GetInt32("NumberItem");
+    ViewBag.Name = Name;
+    ViewBag.CustomerEmail = CustomerEmail;
+    ViewBag.Status = (Status == null ? -1 : Status.Value);
+    ViewBag.NumberItem = (NumberItem == null ? 0 : NumberItem.Value);
+
     Layout = "_Layout";
 }
