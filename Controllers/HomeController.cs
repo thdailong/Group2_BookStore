@@ -19,6 +19,7 @@ namespace Group2_BookStore.Controllers
 
         public IActionResult Index()
         {
+            
             return View();
         }
 

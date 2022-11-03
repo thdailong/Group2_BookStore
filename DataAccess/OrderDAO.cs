@@ -20,9 +20,10 @@ namespace Group2_BookStore.DataAccess
         /// </summary>
         /// <param name="Id"></param>
         /// <returns>Order model</returns>
-        public Order GetOrderById(int Id)
-        {
-            return this.context.Orders.Find(Id);
+        public Order GetOrderById(int Id) {
+            var tmp = this.context.Orders.Find(Id);
+            this.context.OrderDetails.ToList();
+            return tmp;
         }
 
         public Order GetOrderIdWithDetails(int Id) {
@@ -109,13 +110,26 @@ namespace Group2_BookStore.DataAccess
         /// </summary>
         /// <param name="OrderId">Id of order</param>
         /// <param name="Status">Status want to change</param>
-        public void CheckOrder(int OrderId, int Status)
-        {
+        public void UpdateOrderStatus(int OrderId, int Status) {
             var order = GetOrderById(OrderId);
             order.Status = Status;
             this.context.Orders.Update(order);
             this.context.SaveChanges();
         }
+
+        public IEnumerable<Order> GetOrderList()
+        {
+            var Orders = new List<Order>();
+            Orders = context.Orders.OrderByDescending(x=>x.OrderDateTime).ToList();
+            return Orders;
+        }
+
+        public IEnumerable<Order> GetOrderByEmail(string email)
+        {
+            var result = this.context.Orders.Where(c => c.CustomerEmail == email).ToList();
+            return result;
+        }
+
 
         public void AddOrder(Order order) {
             order.OrderId = context.Orders.ToList().Max(c => c.OrderId) + 1;

@@ -1,0 +1,66 @@
+@model IEnumerable<Book>
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "layout__admin";
+}
+<link rel="stylesheet" href="~/css/admin__style.css">
+
+    <h1 class="mt-4"> All Books</h1>
+    <ol class="breadcrumb mb-4">
+               <li class="breadcrumb-item"><a asp-controller="Admin" asp-action="Index">Dashboard</a></li>
+        <li class="breadcrumb-item active">All Books</li>
+    </ol>
+    <!-- Button -->
+
+
+        <a class="btn btn-primary" style="margin-bottom: 1rem;" asp-action="CreateBook"><i class='fa fa-plus'></i> Create New</a>
+    <div id="wrapper">
+        <table  id="myTable" class="display table table-bordered table-hover" cellspacing="0" width="100%">
+            <thead class="table table-primary">
+            <tr>    
+                <th class="col-lg-1">@Html.DisplayNameFor(model => model.BookId)</th>
+                <th class="col-lg-5"> @Html.DisplayNameFor(model => model.Name)</th>
+                <th class="col-lg-2"> @Html.DisplayNameFor(model => model.Author)</th>
+                <th class="col-lg-2"> @Html.DisplayNameFor(model => model.Publisher)</th>
+                <th class="col-lg-2"></th>
+            </tr>
+            </thead>
+            
+            <tbody>
+                 @foreach (var item in Model)
+                {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Publisher)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditBook", new { id = item.BookId }, new{  @style="background-color: #379237; border-radius: 10px; color: #F8FFDB; padding: 5px; text-decoration: none;" }) 
+                    
+                    @Html.ActionLink("Details", "DetailBook", new { id = item.BookId }, new{  @style="background-color: #FD841F; border-radius: 10px; color: #001253; padding: 5px; text-decoration: none;" }) 
+            </tr>
+        }
+            </tbody>
+               
+        </table>
+    </div>
+      
+<div style="height: 100vh"></div>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready( function () {
+$('#myTable').DataTable();
+} );
+</script>
+<script src="~/js/admin__script.js"></script>
+

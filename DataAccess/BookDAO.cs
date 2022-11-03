@@ -18,7 +18,8 @@ namespace DataAccess
         public IEnumerable<Book> GetBookList()
         {
             var Books = new List<Book>();
-            Books = context.Books.ToList();
+            Books = context.Books.OrderByDescending(x=>x.quantity).ToList();
+            var tmp = context.Authors.ToList();
             return Books;
         }
 
@@ -64,6 +65,7 @@ namespace DataAccess
         public IEnumerable<Book> GetBooksSearch(string name)
         {
             var books = context.Books.ToList();
+            var tmp = context.Authors.ToList();
             var res = from book in books where book.Name.Contains(name) select book;
             return res.ToList();
         }
@@ -100,6 +102,7 @@ namespace DataAccess
             Book book = null;
             try
             {
+                var tmp = context.Authors.ToList();
                 book = context.Books.SingleOrDefault(c => c.BookId == BookId);
                 if (book != null)
                 {
@@ -120,6 +123,7 @@ namespace DataAccess
         {
             try
             {
+                book.BookId = this.context.Books.ToList().Max(c => c.BookId) +1;
                 Book _Book = GetBookById(book.BookId);
                 if (_Book == null)
                 {
@@ -139,23 +143,9 @@ namespace DataAccess
 
         public void Update(Book book)
         {
-            try
-            {
-                Book _Book = GetBookById(book.BookId);
-                if (_Book != null)
-                {
-                    context.Books.Update(book);
-                    context.SaveChanges();
-                }
-                else
-                {
-                    throw new Exception("The Book does not exist.");
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+                context.Books.Update(book);
+                context.SaveChanges();
+    
         }
 
         public void Remove(int BookId)

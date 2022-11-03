@@ -1,0 +1,66 @@
+@model Customer
+@{
+    ViewData["Title"] = "DeleteCustomer";
+     Layout = "layout__admin";
+}
+
+<link rel="stylesheet" href="~/css/admin__style.css">
+<script src="~/js/admin__script.js"></script>
+
+ <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item"><a asp-controller="Admin" asp-action="Index">Dashboard</a></li>
+
+        <li class="breadcrumb-item">All Customers</li>
+        <li class="breadcrumb-item active">Delete Customers</li>
+    </ol>
+
+    <div class="d-flex justify-content-center align-items-center" style="100vh">
+    <h1 class="text-primary">Delete Customer</h1>
+    <div style="width: .5rem;"> </div>
+    </div>
+    <hr />
+<div style="100vh; background-color: #B9E0FF;">
+    <div class="col-md-12">
+        <table class="table table-bordered table-striped">
+        <tr>
+            <td> @Html.DisplayNameFor(model => model.Name)</td>
+            <td> @Html.DisplayFor(model => model.Name)</td>
+        </tr>
+        <tr>
+            <td> @Html.DisplayNameFor(model => model.CustomerEmail)</td>
+            <td> @Html.DisplayFor(model => model.CustomerEmail)</td>
+        </tr>
+         <tr>
+            <td> @Html.DisplayNameFor(model => model.Sex)</td>
+            <td> @(Model.Sex == 0 ? ("Women") : "Men")</td>
+        </tr>
+         <tr>
+            <td> @Html.DisplayNameFor(model => model.Image)</td>
+            <td> <img style="width: 8rem; height: auto;" src="@Html.Raw(@Model.Image)" alt="a description of the image"> </td>
+        </tr>
+         <tr>
+             <td> @Html.DisplayNameFor(model => model.DateOfBirth)</td>
+            <td> @Html.DisplayFor(model => model.DateOfBirth)</td>
+        </tr>
+        <tr>
+            <td> @Html.DisplayNameFor(model => model.PhoneNumber)</td>
+            <td> @Html.DisplayFor(model => model.PhoneNumber)</td>
+        </tr>
+         <tr>
+            <td> @Html.DisplayNameFor(model => model.Password)</td>
+            <td> @Html.DisplayFor(model => model.Password)</td>
+        </tr>
+         <tr>
+            <td> @Html.DisplayNameFor(model => model.Status)</td>
+            <td> @(Model.Status == 1 ? ("Customer") : "Manager")</td>
+        </tr>    
+    </table>   
+    </div>
+    </div>    
+    <form asp-action="DeleteCustomers" method="post" onclick="return confirm('Are you sure you want to do that?');">
+        <input value="@Model.CustomerEmail" name="Email" hidden>
+        <input type="submit" value="Delete" class="btn btn-danger" />
+    </form>
+ <div>
+        <a class="btn btn-primary" asp-action="Book">Back to List</a>
+</div>
