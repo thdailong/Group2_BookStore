@@ -99,7 +99,6 @@ a:hover,
 a:focus {
 	text-decoration: none;
 	outline: none;
-	color: #ffffff;
 }
 
 ul,
@@ -1835,7 +1834,7 @@ ol {
 	left: 0;
 	top: 12px;
 	height: 1px;
-	width: 370px;
+	width: 300px;
 	background: #ebebeb;
 	content: "";
 }
@@ -1845,7 +1844,7 @@ ol {
 	right: 0;
 	top: 12px;
 	height: 1px;
-	width: 370px;
+	width: 300px;
 	background: #ebebeb;
 	content: "";
 }

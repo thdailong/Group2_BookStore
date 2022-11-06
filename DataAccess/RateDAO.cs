@@ -23,23 +23,44 @@ namespace Group2_BookStore.DataAccess
             var res = this.context.Rates.Find(Id);
             return res;
         }
-        
+
         /// <summary>
-        /// Add Rate from parameter to database
+        /// Add rate to database
         /// </summary>
-        /// <param name="Rate">Rate model</param>
-        public void AddRate(Rate Rate) {
-            this.context.Rates.Add(Rate);
-            this.context.SaveChanges();
+        /// <param name="BookId"></param>
+        /// <param name="CustomerEmail"></param>
+        /// <param name="AmountStar"></param>        
+        public void addRate(int BookId, string CustomerEmail, int AmountStar) {
+            var x = getRateOnBookAndId(BookId, CustomerEmail);
+            if (x != 0) {
+                updateRate(BookId, CustomerEmail, AmountStar);
+                return;
+            }
+
+            var rate = new Rate();
+            rate.BookId = BookId;
+            rate.AmountStar = AmountStar;
+            rate.CustomerEmail = CustomerEmail;
+            rate.RateId = context.Rates.Max(c => c.RateId) + 1;
+            context.Rates.Add(rate);
+            context.SaveChanges();
         }
 
         /// <summary>
-        /// Update Rate from parameter to database
+        /// Update rate to database
         /// </summary>
-        /// <param name="Rate">Rate model</param>
-        public void UpdateRate(Rate Rate) {
-            this.context.Rates.Update(Rate);
-            this.context.SaveChanges();
+        /// <param name="BookId"></param>
+        /// <param name="CustomerEmail"></param>
+        /// <param name="AmountStar"></param>
+        public void updateRate(int BookId, string CustomerEmail, int AmountStar) {
+            var rate = getEntityOnBookAndId(BookId, CustomerEmail);
+            if (rate == null) return;
+
+            rate.BookId = BookId;
+            rate.AmountStar = AmountStar;
+            rate.CustomerEmail = CustomerEmail;
+            context.Rates.Update(rate);
+            context.SaveChanges();
         }
 
         /// <summary>
@@ -49,6 +70,25 @@ namespace Group2_BookStore.DataAccess
         public void DeleteRate(int Id) {
             var res = GetRateOnId(Id);
             this.context.Rates.Remove(res);
+        }
+
+        /// <summary>
+        /// Get rate from user and book
+        /// </summary>
+        /// <param name="BookId"></param>
+        /// <param name="CustomerEmail"></param>
+        /// <returns></returns>
+        public int getRateOnBookAndId(int BookId, string CustomerEmail) {
+            var x = this.context.Rates.SingleOrDefault(c => c.BookId == BookId && c.CustomerEmail == CustomerEmail);
+            if (x == null) {
+                return 0;
+            }
+            return (int)x.AmountStar;
+        }
+
+        public Rate getEntityOnBookAndId(int BookId, string CustomerEmail) {
+            var x = this.context.Rates.SingleOrDefault(c => c.BookId == BookId && c.CustomerEmail == CustomerEmail);
+            return x;
         }
 
         /// <summary>
@@ -73,7 +113,7 @@ namespace Group2_BookStore.DataAccess
         /// </summary>
         /// <param name="bookId"></param>
         /// <returns>A float value which is the result</returns>
-        public float getRateTotalBaseOnIdBook(int bookId) {
+        public (int, int) getRateTotalBaseOnIdBook(int bookId) {
             var res = this.context.Rates.Where(c => c.BookId == bookId).ToList();
             int numberStar = 0, numberStarGet = 0;
             foreach (var item in res)
@@ -81,7 +121,12 @@ namespace Group2_BookStore.DataAccess
                 numberStar+=5;
                 numberStarGet+=(int)item.AmountStar;
             }
-            return (float)numberStarGet/numberStar;
+            return (numberStarGet, numberStar);
+        }
+
+        public int getRateOnIdAndStar(int bookId, int amountStar) {
+            var res = this.context.Rates.Where(c => c.BookId == bookId && c.AmountStar == amountStar).ToList();
+            return res.Count();
         }
     }
 }

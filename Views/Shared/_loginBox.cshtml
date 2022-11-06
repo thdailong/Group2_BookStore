@@ -13,7 +13,11 @@
                     </div>
                     <div class="form-group">
                         <label for="">Password</label><br>
-                        <input name="Password" placeholder="Enter address" required>
+                        <input name="Password" type="password" placeholder="Enter address" required>
+                    </div>
+                    <input type="text" id="Path" name="Path" hidden>
+                    <div class="text-danger">
+                        @TempData["MessageLogin"]
                     </div>
                     <div class="form-group">
                         <button type="submit" value="submit" class="btn btn-primary" style="width: 100%;">
