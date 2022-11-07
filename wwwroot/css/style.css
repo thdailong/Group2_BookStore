@@ -3677,3 +3677,62 @@ ol {
   padding: 0 1rem 0 1rem;
   border-radius: 0 5px 5px 0;
 }
+
+/* ----------------------------
+			Login
+---------------------------- */
+#formLogin {
+	padding-bottom: 200px;
+	background-image: #fff;
+  }
+  
+  #modal-login {
+	padding: 0;
+	margin: 0;
+  }
+  
+  .txt-login {
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  
+  #inp-login {
+	color: #dc3545;
+	background-color: #fdfafa;
+	border: none;
+	border-bottom: 1px solid #dc3545;
+	margin-bottom: 25px;
+  }
+  
+  #btn-login {
+	background: linear-gradient(
+	  90deg,
+	  rgb(139, 205, 250),
+	  rgb(4, 107, 175),
+	  rgb(134, 10, 134)
+	);
+	transition: 0.3s background;
+	transition: 0.3s color;
+	font-weight: bold;
+	border: none;
+	border-radius: 20px;
+	margin-left: 13%;
+	width: 75%;
+	margin-bottom: 25px;
+	font-weight: 600;
+	padding: 8px;
+  }
+  
+  #btn-login:hover {
+	background-image: url("https://i.pinimg.com/236x/1a/16/f1/1a16f1f06a16a3ad13eb359d0c1bf98c.jpg");
+	filter: brightness(1.75);
+  }
+  
+  .txt-login-lable {
+	color: #333;
+	font-weight: 600;
+  }
+  
+  .txt-register {
+	margin-left: 15%;
+	font-weight: 600;
+  }

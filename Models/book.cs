@@ -35,5 +35,6 @@ namespace Group2_BookStore.Models
         public virtual List<Cart> Carts { get; set; }
         public virtual List<OrderDetail> OrderDetails { get; set; }
         public virtual List<Rate> Rates { get; set; }
+        public virtual List<Favorite> Favorites {get; set;}
     }
 }
