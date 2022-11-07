@@ -97,14 +97,10 @@ textarea:focus {
 
 a:hover,
 a:focus {
-<<<<<<< HEAD
   text-decoration: none;
   outline: none;
   color: #ffffff;
-=======
-	text-decoration: none;
-	outline: none;
->>>>>>> 47edcaad6b6d3ad72bfdb9d182c94048dcd33db4
+
 }
 
 ul,
@@ -1838,7 +1834,6 @@ ol {
 }
 
 .product__details__tab .nav-tabs:before {
-<<<<<<< HEAD
   position: absolute;
   left: 0;
   top: 12px;
@@ -1856,25 +1851,7 @@ ol {
   width: 370px;
   background: #ebebeb;
   content: "";
-=======
-	position: absolute;
-	left: 0;
-	top: 12px;
-	height: 1px;
-	width: 300px;
-	background: #ebebeb;
-	content: "";
-}
 
-.product__details__tab .nav-tabs:after {
-	position: absolute;
-	right: 0;
-	top: 12px;
-	height: 1px;
-	width: 300px;
-	background: #ebebeb;
-	content: "";
->>>>>>> 47edcaad6b6d3ad72bfdb9d182c94048dcd33db4
 }
 
 .product__details__tab .nav-tabs li {
@@ -3775,4 +3752,3 @@ ol {
   margin-left: 15%;
   font-weight: 600;
 }
-
