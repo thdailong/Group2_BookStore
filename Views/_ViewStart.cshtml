@@ -27,6 +27,6 @@
     ViewBag.CustomerEmail = CustomerEmail;
     ViewBag.Status = (Status == null ? -1 : Status.Value);
     ViewBag.NumberItem = (NumberItem == null ? 0 : NumberItem.Value);
-
-    Layout = "_Layout";
+    if (ViewBag.Status > 1) Layout = "layout__admin";
+    else Layout = "_Layout";
 }
