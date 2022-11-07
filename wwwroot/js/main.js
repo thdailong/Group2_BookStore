@@ -231,4 +231,8 @@
         }
         $button.parent().find("input").val(newVal);
     });
+
+    $(document).ready(function () {
+        $('#Path').val(window.location.href);
+    })
 })(jQuery);

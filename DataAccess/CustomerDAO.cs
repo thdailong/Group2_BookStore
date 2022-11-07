@@ -40,6 +40,12 @@ namespace DataAccess
                     var e = context.Entry(Customer);
                     e.Collection(c => c.Orders).Load();
                     e.Collection(c => c.Addresses).Load();
+                    var ls = Customer.Orders;
+                    foreach (var item in ls)
+                    {
+                        var ex = context.Entry(item);
+                        ex.Collection(c => c.OrderDetails).Load();
+                    }
                 }
             }
             catch (Exception ex)
