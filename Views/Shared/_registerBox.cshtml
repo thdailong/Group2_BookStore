@@ -1,0 +1,30 @@
+<!-- Modal -->
+<link rel="stylesheet" href="~/css/admin__style.css">
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalaLbel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;" role="document">
+        <div class="modal-content">
+            <div class="modal-body" id="modal-login">
+                <form asp-controller="User" style=" margin-top:10%;" asp-action="login" method="post" id="formLogin">
+                    <h3 class="text-center txt-login" style="color: #dc3545; padding-top: 10px;">LOGIN</h3>
+                    <hr>
+                    <div class="form-group" style="margin-left: 25%; width: 100%; margin-top:15%; margin-bottom:10%;" >
+                        <label class="font-weight-bold txt-login" for="Name">Email</label><br>
+                        <input class="form-control" id="inp-login" placeholder="Enter email" name="CustomerEmail" required>
+                        <span class="txt-login text-danger"></span>
+                    </div>
+                    <div class="form-group" style="margin-left: 25%; width: 100%; margin-bottom:10%;">
+                        <label class="font-weight-bold txt-login" for="">Password</label><br>
+                        <input class="form-control" id="inp-login" name="Password" placeholder="Enter address" required>
+                        <span class="txt-login text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" value="submit" class="btn btn-primary txt-login" id="btn-login" style="margin-left: 35%; width: 30%; margin-bottom: 25px;">
+                            Login
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
