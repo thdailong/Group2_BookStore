@@ -43,7 +43,7 @@ namespace Group2_BookStore.Controllers
         }
 
         [HttpPost]
-        public IActionResult login(string CustomerEmail, string Password)
+        public IActionResult login(string CustomerEmail, string Password, string Path)
         {
             if (HttpContext.Session.GetInt32("Role") != null)
             {
@@ -52,7 +52,7 @@ namespace Group2_BookStore.Controllers
             var cus = customerDAO.CustomerLogin(CustomerEmail, Password);
             if (cus == null)
             {
-                TempData["Message"] = "Wrong email or password";
+                TempData["MessageLogin"] = "Wrong email or password";
                 return RedirectToAction("Index", "Home");
             }
             HttpContext.Session.SetInt32("Status", cus.Status);
@@ -60,7 +60,7 @@ namespace Group2_BookStore.Controllers
             HttpContext.Session.SetString("Name", cus.Name);
             HttpContext.Session.SetInt32("NumberItem", cartDAO.GetCartsOnCusEmail(CustomerEmail).Count());
 
-            return RedirectToAction("Index", "Home");
+            return Redirect(Path);
         }
 
         public IActionResult logout()

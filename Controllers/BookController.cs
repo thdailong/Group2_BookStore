@@ -17,11 +17,15 @@ namespace Group2_BookStore.Controllers
     {
         private readonly BookDAO bookDAO;
         private readonly CommentDAO commentDAO;
+        private readonly RateDAO rateDAO;
+        private readonly CustomerDAO customerDAO;
 
         public BookController(BOOKSTOREContext db)
         {
             bookDAO = new BookDAO(db);
             commentDAO = new CommentDAO(db);
+            rateDAO = new RateDAO(db);
+            customerDAO = new CustomerDAO(db);
         }
 
         public IActionResult Index(int? page)
@@ -73,6 +77,22 @@ namespace Group2_BookStore.Controllers
             var listCom = (List<Comment>)commentDAO.GetListCommentOnBookId(BookId);
             ViewBag.listCom = listCom;
             ViewBag.commentCount = listCom.Count();
+
+            var customerEmail = HttpContext.Session.GetString("CustomerEmail");
+            ViewBag.CusStar = 0;
+            if (customerEmail != null)
+            {
+                ViewBag.CusStar = rateDAO.getRateOnBookAndId(BookId, customerEmail);
+            }
+            var (x, y) = rateDAO.getRateTotalBaseOnIdBook(BookId);
+            ViewBag.starGet = x;
+            ViewBag.starTotal = y;
+            ViewBag.Star1 = rateDAO.getRateOnIdAndStar(BookId, 1);
+            ViewBag.Star2 = rateDAO.getRateOnIdAndStar(BookId, 2);
+            ViewBag.Star3 = rateDAO.getRateOnIdAndStar(BookId, 3);
+            ViewBag.Star4 = rateDAO.getRateOnIdAndStar(BookId, 4);
+            ViewBag.Star5 = rateDAO.getRateOnIdAndStar(BookId, 5);
+
             return View(book);
         }
 
@@ -95,6 +115,42 @@ namespace Group2_BookStore.Controllers
             return RedirectToAction("BookDetail", "Book", new { BookId = BookId });
         }
 
+        public Boolean checkIfHaveBuy(string customerEmail, int BookId, List<Order> ls)
+        {
+            foreach (var item in ls) if (item.Status == 4)
+                {
+                    var listOrderDetail = item.OrderDetails;
+                    var res = listOrderDetail.SingleOrDefault(c => c.BookId == BookId);
+                    if (res != null) return true;
+                }
+            return false;
+        }
+
+        public IActionResult AddRateToBook(int BookId, int amountStar)
+        {
+            var customerEmail = HttpContext.Session.GetString("CustomerEmail");
+            if (customerEmail == null)
+            {
+                TempData["Message"] = "You need to login to rate";
+                return RedirectToAction("BookDetail", "Book", new { BookId = BookId });
+            }
+            if (amountStar < 0 || amountStar > 5)
+            {
+                TempData["Message"] = "Rate of a book can only from 1 to 5 star";
+                return RedirectToAction("BookDetail", "Book", new { BookId = BookId });
+            }
+            var cus = customerDAO.GetCustomerByEmail(customerEmail);
+            if (!checkIfHaveBuy(customerEmail, BookId, cus.Orders))
+            {
+                TempData["Message"] = "You need to have already buy and received that book to rate";
+                return RedirectToAction("BookDetail", "Book", new { BookId = BookId });
+            }
+
+            rateDAO.addRate(BookId, customerEmail, amountStar);
+            TempData["Success"] = "Update review successfully";
+
+            return RedirectToAction("BookDetail", "Book", new { BookId = BookId });
+        }
 
     }
 }
