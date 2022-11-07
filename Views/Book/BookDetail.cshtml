@@ -3,6 +3,79 @@
 }
 @model Book
 
+@{
+    var totalReview = (int)ViewBag.starTotal/5;
+    double average = 0;
+    if (ViewBag.starTotal != 0) {
+        average = (double)ViewBag.starGet/(double)ViewBag.starTotal*5;
+    }
+    average = Math.Round(average, 2);
+    var tmp = (totalReview == 0) ? 1 : totalReview;
+    var numreview1 = (float)ViewBag.Star1/tmp*100;
+    var numreview2 = (float)ViewBag.Star2/tmp*100;
+    var numreview3 = (float)ViewBag.Star3/tmp*100;
+    var numreview4 = (float)ViewBag.Star4/tmp*100;
+    var numreview5 = (float)ViewBag.Star5/tmp*100;
+}
+<style>
+    * {
+    box-sizing: border-box;
+    }
+
+    .heading {
+    font-size: 25px;
+    margin-right: 25px;
+    }
+    
+    .fa_big {
+        font-size: 25px;
+    }
+
+    .checked {
+    color: orange;
+    }
+
+    /* Three column layout */
+    .side {
+    float: left;
+    width: 15%;
+    margin-top:10px;
+    }
+
+    .middle {
+    margin-top:10px;
+    float: left;
+    width: 70%;
+    }
+
+    /* Place text to the right */
+    .right {
+    text-align: right;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+    content: "";
+    display: table;
+    clear: both;
+    }
+
+    /* The bar container */
+    .bar-container {
+    width: 100%;
+    background-color: #f1f1f1;
+    text-align: center;
+    color: white;
+    }
+
+    /* Individual bars */
+    .bar-5 {width: @numreview5%; height: 18px; background-color: #04AA6D;}
+    .bar-4 {width: @numreview4%; height: 18px; background-color: #2196F3;}
+    .bar-3 {width: @numreview3%; height: 18px; background-color: #00bcd4;}
+    .bar-2 {width: @numreview2%; height: 18px; background-color: #ff9800;}
+    .bar-1 {width: @numreview1%; height: 18px; background-color: #f44336;}
+</style>
+
 <section class="about-details spad">
     <div class="container">
         <div class="col-lg-12">
@@ -28,9 +101,14 @@
                         <hr>
                         <p class="book__detail__price">@Model.Price VND</p>
                         <hr>
-                        <p class="book__detail__star"> 4 <i class="text-danger fa fa-star"></i><i
-                                class=" text-danger fa fa-star"></i><i class="text-danger fa fa-star"></i><i
-                                class="text-danger fa fa-star"></i><i class="fa fa-star"></i></p>
+                        <p class="book__detail__star"> @average 
+                            @for (int i = 1; i <= 5; ++i) if (i <= average) {
+                                <i class="fa fa-star checked"></i>
+                            }
+                            else {
+                                <i class="fa fa-star"></i>
+                            }
+                        </p>
                         <p class="book__detail__sold"> 42 Sold</p>
                         <hr>
                         <form asp-action="AddBookToCart" asp-controller="Cart">
@@ -65,7 +143,10 @@
                             aria-selected="false">Introduction</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab" aria-selected="false">Review</a>
+                        <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab" aria-selected="false">Comment</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">Rate</a>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -111,11 +192,6 @@
                     </div>
                     <div class="tab-pane" id="tabs-3" role="tabpanel">
                         <div class="product__details__tab__desc">
-                            <h6>Rating</h6>
-                            <p class=""> Please Rating for this product <i class="text-danger fa fa-star"></i><i
-                                    class=" text-danger fa fa-star"></i><i class="text-danger fa fa-star"></i><i
-                                    class="text-danger fa fa-star"></i><i class="fa fa-star"></i></p>
-
                             <h6>Comment(@ViewBag.commentCount)</h6>
                             <div class="detail__book__comment__container">
                                 <form asp-action="AddComment" method="post">
@@ -147,6 +223,77 @@
                                         </table>
                                     </div>
                                 }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tabs-4" role="tabpanel">
+                        <div class="product__details__tab__desc">
+                            <span class="heading">User Rating</span>
+                            @for(int i = 1; i <= 5; ++i) if (i > ViewBag.CusStar) {
+                                <a asp-action="AddRateToBook" asp-route-BookId="@Model.BookId" asp-route-amountStar="@i"><span class="fa-big fa fa-star" style="color: black;"></span></a>
+                            }
+                            else {
+                                <a asp-action="AddRateToBook" asp-route-BookId="@Model.BookId" asp-route-amountStar="@i"><span class="fa-big fa fa-star checked"></span></a>
+                            }
+                            <p>@average average based on @totalReview reviews.</p>
+                            <hr style="border:3px solid #f1f1f1">
+
+                            <div class="row">
+                                <div class="side">
+                                    <div>5 star</div>
+                                </div>
+                                <div class="middle">
+                                    <div class="bar-container">
+                                    <div class="bar-5"></div>
+                                    </div>
+                                </div>
+                                <div class="side right">
+                                    <div>@ViewBag.Star5</div>
+                                </div>
+                                <div class="side">
+                                    <div>4 star</div>
+                                </div>
+                                <div class="middle">
+                                    <div class="bar-container">
+                                    <div class="bar-4"></div>
+                                    </div>
+                                </div>
+                                <div class="side right">
+                                    <div>@ViewBag.Star4</div>
+                                </div>
+                                <div class="side">
+                                    <div>3 star</div>
+                                </div>
+                                <div class="middle">
+                                    <div class="bar-container">
+                                    <div class="bar-3"></div>
+                                    </div>
+                                </div>
+                                <div class="side right">
+                                    <div>@ViewBag.Star3</div>
+                                </div>
+                                <div class="side">
+                                    <div>2 star</div>
+                                </div>
+                                <div class="middle">
+                                    <div class="bar-container">
+                                    <div class="bar-2"></div>
+                                    </div>
+                                </div>
+                                <div class="side right">
+                                    <div>@ViewBag.Star2</div>
+                                </div>
+                                <div class="side">
+                                    <div>1 star</div>
+                                </div>
+                                <div class="middle">
+                                    <div class="bar-container">
+                                    <div class="bar-1"></div>
+                                    </div>
+                                </div>
+                                <div class="side right">
+                                    <div>@ViewBag.Star1</div>
+                                </div>
                             </div>
                         </div>
                     </div>
