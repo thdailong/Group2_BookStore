@@ -1,0 +1,34 @@
+@model IEnumerable<Book>
+@{
+    ViewData["Title"] = "BestSeller";
+    Layout = "layout__admin";
+}
+<link rel="stylesheet" href="~/css/admin__style.css">
+    <div >
+        <h1 class="mt-4">Best Seller</h1>
+    </div>
+ <ol class="breadcrumb mb-4">
+               <li class="breadcrumb-item"><a asp-controller="Admin" asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active">Best Seller</li>
+    </ol>
+
+<div class="bsl__container__main">
+    <div class="bsl__container col-lg-6">
+        <div class="bsl__content">
+            <h5 class="bsl__title">
+                Best Seller Of Week
+            </h5>
+            <hr>
+            <div class="bsl__book">
+                <img class="bsl__img col-lg-4" src="https://i.pinimg.com/564x/38/af/e1/38afe1c8629e8552ac10ba447ba01cfc.jpg">
+                <div class="bsl__info__container col-lg-8">
+                    <p class="bsl__info">model.BookId</p>
+                    <p class="bsl__info">model.Name</p>
+                    <p class="bsl__info">model.Author</p>
+                    <p class="bsl__info">model.Category</p>
+                </div>
+            </div>
+            <a asp-action="DetailBook" asp-route-id="model.id" class="btn btn-outline-warning bsl_detail">Detail</a>
+        </div>
+    </div>
+</div>

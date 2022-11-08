@@ -77,6 +77,19 @@ namespace Group2_BookStore.Controllers
             return View(orderlist);
         }
 
+        public IActionResult BestSeller()
+        {
+              var booklist = bookDAO.GetBookList();
+            return View(booklist);
+        }
+        
+        public IActionResult DearCustomer()
+        {
+            var cuslist = customerDAO.GetCustomerList();
+            return View(cuslist);
+        }
+        
+
 
         public ActionResult EditBook(int? id)
         {

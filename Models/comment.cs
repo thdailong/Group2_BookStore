@@ -8,13 +8,9 @@ namespace Group2_BookStore.Models
 {
     public partial class Comment
     {
-
         public int CommendId { get; set; }
-
         public string CustomerEmail { get; set; }
-
         public int? BookId { get; set; }
-
         public string ContentComment { get; set; }
 
         public DateTime? TimeComment { get; set; }

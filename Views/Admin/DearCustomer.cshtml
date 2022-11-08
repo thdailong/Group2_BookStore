@@ -1,0 +1,29 @@
+@model IEnumerable<Customer>
+@{
+    ViewData["Title"] = "DearCustomer";
+    Layout = "layout__admin";
+}
+
+<link rel="stylesheet" href="~/css/admin__style.css">
+<div >
+        <h1 class="mt-4">Loyal Customer</h1>
+</div>
+    <ol class="breadcrumb mb-4">
+               <li class="breadcrumb-item"><a asp-controller="Admin" asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active">Loyal Customer</li>
+    </ol>
+
+
+    <div class="detail__container__main">
+   <div class="loyal__cus__card">
+    <p class="detail__title">Loyal customer</p>
+    <img class="detail__img" src="https://i.pinimg.com/236x/65/58/16/655816a097d496fcfc1d0ff551df1679.jpg">
+    <p class="detail__info">Email</p>
+    <p class="detail__info">Name</p>
+    <p class="detail__info">Sex</p>
+    <p class="detail__info">NumberPhone</p>
+   <a class="detail__dear__member" asp-action="DetailCustomer">Detail</a>
+    </div>
+
+   
+</div>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,16 +12,12 @@ namespace Group2_BookStore.Models
         {
             OrderDetails = new List<OrderDetail>();
         }
-          
         public int OrderId { get; set; }
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}" , ApplyFormatInEditMode = true)]
-         
         public DateTime? OrderDateTime { get; set; }
-          
         public string CustomerEmail { get; set; }
-          
         public int? AddressId { get; set; }
-          
+
         public int? Status { get; set; }
 
         public virtual Customer CustomerEmailNavigation { get; set; }
