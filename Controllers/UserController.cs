@@ -20,7 +20,7 @@ namespace Group2_BookStore.Controllers
         private readonly AddressDAO addressDAO;
         private readonly OrderDAO orderDAO;
         private readonly CartDAO cartDAO;
-
+        
 
         public UserController(BOOKSTOREContext db)
         {
@@ -45,15 +45,14 @@ namespace Group2_BookStore.Controllers
         [HttpPost]
         public IActionResult login(string CustomerEmail, string Password, string Path)
         {
-            if (HttpContext.Session.GetInt32("Role") != null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
+
+            var customerEmail = getUser();
+            if (customerEmail != null) return RedirectToAction("Index", "Home");
             var cus = customerDAO.CustomerLogin(CustomerEmail, Password);
             if (cus == null)
             {
                 TempData["MessageLogin"] = "Wrong email or password";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("LoginFull");
             }
             HttpContext.Session.SetInt32("Status", cus.Status);
             HttpContext.Session.SetString("CustomerEmail", cus.CustomerEmail);
@@ -62,6 +61,55 @@ namespace Group2_BookStore.Controllers
 
             return Redirect(Path);
         }
+
+        public IActionResult LoginFull()
+        {
+            var customerEmail = getUser();
+            if (customerEmail != null) return RedirectToAction("Index", "Home");
+
+            return View();
+        }
+
+
+        public IActionResult register()
+        {
+            var customerEmail = getUser();
+            if (customerEmail != null) return RedirectToAction("Index", "Home");
+
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult registerr(Customer customer, string RepeatPassword)
+        {
+            var customerEmail = getUser();
+            if (customerEmail != null) return RedirectToAction("Index", "Home");
+            customer.Status = 1;
+            if (ModelState.IsValid)
+            {
+                if (customer.Password != RepeatPassword)
+                {
+                    TempData["Message"] = "Repeat password and password login is not the same";
+                    return RedirectToAction("register");
+                }
+                var cus = customerDAO.GetCustomerByEmail(customer.CustomerEmail);
+                if (cus != null)
+                {
+                    TempData["Message"] = "Email have already exist!";
+                    return RedirectToAction("register");
+                }
+                customerDAO.AddNew(customer);
+                HttpContext.Session.SetInt32("Status", customer.Status);
+                HttpContext.Session.SetString("CustomerEmail", customer.CustomerEmail);
+                HttpContext.Session.SetString("Name", customer.Name);
+                HttpContext.Session.SetInt32("NumberItem", cartDAO.GetCartsOnCusEmail(customer.CustomerEmail).Count());
+                return RedirectToAction("index");
+            }
+            return RedirectToAction("register");
+        }
+
 
         public IActionResult logout()
         {
@@ -304,6 +352,16 @@ namespace Group2_BookStore.Controllers
 
             return View();
         }
+
+        public IActionResult Favorite()
+        {
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
+
+            var list = 
+            return View();
+        }
+        
 
     }
 }

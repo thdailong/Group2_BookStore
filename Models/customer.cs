@@ -16,21 +16,22 @@ namespace Group2_BookStore.Models
             Orders = new List<Order>();
             Rates = new List<Rate>();
         }
-         [Required]
+        [Required (ErrorMessage = "Email can not be null")]
         public string CustomerEmail { get; set; }
-         [Required]
+        [Required (ErrorMessage = "Name can not be null")]
         public string Name { get; set; }
-         [Required]
+        [Required (ErrorMessage = "Sex can not be null")]
         public int? Sex { get; set; }
-         [Required]
+        
         public string Image { get; set; }
-         [Required]
+        [Required (ErrorMessage = "Date of birth can not be null")]
         public DateTime? DateOfBirth { get; set; }
-         [Required]
+        [Required(ErrorMessage = "Phone number can not be null")]
         public string PhoneNumber { get; set; }
-         [Required]
+        [Required (ErrorMessage = "Password can not be null")]
+        
         public string Password { get; set; }
-         [Required]
+        [Required (ErrorMessage = "Status can not be null")]
         public int Status { get; set; }
 
         public virtual List<Address> Addresses { get; set; }

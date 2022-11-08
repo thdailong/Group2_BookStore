@@ -99,7 +99,6 @@ a:hover,
 a:focus {
   text-decoration: none;
   outline: none;
-  color: #ffffff;
 
 }
 
@@ -3711,7 +3710,7 @@ ol {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-#inp-login {
+.inp-login {
   color: #dc3545;
   background-color: #fdfafa;
   border: none;
