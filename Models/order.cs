@@ -12,16 +12,11 @@ namespace Group2_BookStore.Models
         {
             OrderDetails = new List<OrderDetail>();
         }
-         [Required]
         public int OrderId { get; set; }
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}" , ApplyFormatInEditMode = true)]
-        [Required]
         public DateTime? OrderDateTime { get; set; }
-         [Required]
         public string CustomerEmail { get; set; }
-         [Required]
         public int? AddressId { get; set; }
-         [Required]
         public int? Status { get; set; }
 
         public virtual Customer CustomerEmailNavigation { get; set; }

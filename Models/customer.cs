@@ -16,21 +16,13 @@ namespace Group2_BookStore.Models
             Orders = new List<Order>();
             Rates = new List<Rate>();
         }
-         [Required]
         public string CustomerEmail { get; set; }
-         [Required]
         public string Name { get; set; }
-         [Required]
         public int? Sex { get; set; }
-         [Required]
         public string Image { get; set; }
-         [Required]
         public DateTime? DateOfBirth { get; set; }
-         [Required]
         public string PhoneNumber { get; set; }
-         [Required]
         public string Password { get; set; }
-         [Required]
         public int Status { get; set; }
 
         public virtual List<Address> Addresses { get; set; }

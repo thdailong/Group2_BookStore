@@ -10,9 +10,7 @@ namespace Group2_BookStore.Models
     {
          [Required]
         public int Award1 { get; set; }
-         [Required]
         public string Name { get; set; }
-         [Required]
         public int? Year { get; set; }
     }
 }

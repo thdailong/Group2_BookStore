@@ -12259,11 +12259,210 @@ body {
     border: #a4a4a4;
 }
 
-
 #table_detail tr:hover {
     background-color: #f2f2f2;
 }
 
 #table_detail .hidden_row {
     display: none;
+}
+
+/* -------------------------------
+Best Seller
+------------------------------- */
+
+.bsl__container__main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.bsl__container {
+    background-color: #191c29;
+    height: auto;
+    padding: 1rem 1.5rem;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px 1px blue;
+}
+
+.bsl__img {
+    border-radius: 2px;
+    padding: 1rem 0;
+}
+
+.bsl__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.bsl__title {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2rem;
+    color: orange;
+    font-weight: 600;
+    text-shadow: 0.6px 0.6px 15px orange;
+}
+
+.bsl__info__container {
+    padding: 1rem;
+    margin-left: 2.5rem;
+}
+
+.bsl__book {
+    display: flex;
+}
+
+.bsl__info {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    color: #636464;
+    font-weight: bold;
+    width: 80%;
+    padding: 0.2rem 0.5rem;
+    border-bottom: 1px solid rgb(133, 132, 132);
+}
+
+.detail__title {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2rem;
+    color: orange;
+    position: relative;
+    top: -10%;
+    font-weight: 600;
+    text-shadow: 0.6px 0.6px 15px #5ddcff;
+}
+
+.bsl_detail:hover {
+    background-color: orange;
+    color: #fff;
+}
+
+@property --rotate {
+    syntax: "<angle>";
+    initial-value: 132deg;
+    inherits: false;
+}
+
+:root {
+    --card-height: 65vh;
+    --card-width: calc(var(--card-height) / 1.5);
+}
+
+.detail__container__main {
+    display: flex;
+    justify-content: center;
+}
+
+.loyal__cus__card {
+    background: #191c29;
+    width: var(--card-width);
+    height: var(--card-height);
+    padding: 3px;
+    position: relative;
+    border-radius: 6px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    display: flex;
+    font-size: 1.5em;
+    color: rgb(88 199 250 / 0%);
+    cursor: pointer;
+    font-family: cursive;
+}
+
+.loyal__cus__card:hover {
+    color: rgb(88 199 250 / 100%);
+    transition: color 1s;
+}
+.loyal__cus__card:hover:before,
+.loyal__cus__card:hover:after {
+    animation: none;
+    opacity: 0;
+}
+
+.loyal__cus__card::before {
+    content: "";
+    width: 104%;
+    height: 102%;
+    border-radius: 8px;
+    background-image: linear-gradient(
+        var(--rotate),
+        #5ddcff,
+        #3c67e3 43%,
+        #4e00c2
+    );
+    position: absolute;
+    z-index: -1;
+    top: -1%;
+    left: -2%;
+    animation: spin 2.5s linear infinite;
+}
+
+.loyal__cus__card::after {
+    position: absolute;
+    content: "";
+    top: calc(var(--card-height) / 6);
+    left: 0;
+    right: 0;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    transform: scale(0.8);
+    filter: blur(calc(var(--card-height) / 6));
+    background-image: linear-gradient(
+        var(--rotate),
+        #5ddcff,
+        #3c67e3 43%,
+        #4e00c2
+    );
+    opacity: 1;
+    transition: opacity 0.5s;
+    animation: spin 2.5s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        --rotate: 0deg;
+    }
+    100% {
+        --rotate: 360deg;
+    }
+}
+
+.detail__dear__member {
+    text-decoration: none;
+    padding: 4px 12px;
+    border: 1px solid #0a53be;
+    border-radius: 5px;
+    transition: background-color 0.8s;
+    position: absolute;
+    bottom: 3%;
+}
+
+.detail__img {
+    width: 50%;
+    height: auto;
+    position: relative;
+    top: -7%;
+    border-radius: 5px;
+}
+
+.detail__info {
+    font-size: 1rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 3px 60px;
+    background-color: #191c29;
+}
+
+.detail__info:hover {
+    filter: brightness(85%);
+}
+
+.detail__dear__member:hover {
+    text-decoration: none;
+    padding: 4px 12px;
+    background-color: #fff;
 }
