@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -20,7 +20,6 @@ namespace Group2_BookStore.Models
         public string Image { get; set; }
         public int? AuthorId { get; set; }
         public string Publisher { get; set; }
-         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}" , ApplyFormatInEditMode = true)]
         public DateTime? PulishDate { get; set; }
         public int? PageNumber { get; set; }
         public string Category { get; set; }
@@ -30,9 +29,11 @@ namespace Group2_BookStore.Models
         public int? Status { get; set; }
         public int? quantity {get; set;}
 
+
         public virtual Author Author { get; set; }
         public virtual List<Cart> Carts { get; set; }
         public virtual List<OrderDetail> OrderDetails { get; set; }
         public virtual List<Rate> Rates { get; set; }
+        public virtual List<Favorite> Favorites { get; set; }
     }
 }

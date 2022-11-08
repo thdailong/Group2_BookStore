@@ -23,10 +23,13 @@
     int? Status = HttpContextAccessor.HttpContext.Session.GetInt32("Status");
     string? Name = HttpContextAccessor.HttpContext.Session.GetString("Name");
     int? NumberItem = HttpContextAccessor.HttpContext.Session.GetInt32("NumberItem");
+    int? NumberFavorite = HttpContextAccessor.HttpContext.Session.GetInt32("NumberFavorite");
     ViewBag.Name = Name;
     ViewBag.CustomerEmail = CustomerEmail;
     ViewBag.Status = (Status == null ? -1 : Status.Value);
     ViewBag.NumberItem = (NumberItem == null ? 0 : NumberItem.Value);
+    ViewBag.NumberFavorite = (NumberFavorite == null ? 0 : NumberFavorite.Value);
+
     if (ViewBag.Status > 1) Layout = "layout__admin";
     else Layout = "_Layout";
 }

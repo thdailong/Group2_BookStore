@@ -23,6 +23,7 @@ namespace Group2_BookStore.Models
         public DateTime? DateOfBirth { get; set; }
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
+
         public int Status { get; set; }
 
         public virtual List<Address> Addresses { get; set; }
@@ -30,5 +31,6 @@ namespace Group2_BookStore.Models
         public virtual List<Comment> Comments { get; set; }
         public virtual List<Order> Orders { get; set; }
         public virtual List<Rate> Rates { get; set; }
+        public virtual List<Favorite> Favorites { get; set; }
     }
 }

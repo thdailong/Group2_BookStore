@@ -26,6 +26,7 @@ namespace Group2_BookStore.DB
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<Rate> Rates { get; set; }
+        public virtual DbSet<Favorite> Favorites { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -380,6 +381,28 @@ namespace Group2_BookStore.DB
                     .WithMany(p => p.Rates)
                     .HasForeignKey(d => d.CustomerEmail)
                     .HasConstraintName("FK_rate_customer");
+            });
+
+            modelBuilder.Entity<Favorite>(entity =>
+            {
+                entity.ToTable("favorite");
+                entity.HasKey(c => new {c.CustomerEmail, c.BookId});
+
+                entity.Property(e => e.BookId).HasColumnName("book_id");
+                entity.Property(e => e.CustomerEmail)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("customer_email");
+
+                entity.HasOne(d => d.Book)
+                    .WithMany(p => p.Favorites)
+                    .HasForeignKey(d => d.BookId)
+                    .HasConstraintName("FK_favorite_book");
+
+                entity.HasOne(d => d.CustomerEmailNavigation)
+                    .WithMany(p => p.Favorites)
+                    .HasForeignKey(d => d.CustomerEmail)
+                    .HasConstraintName("FK_favorite_customer");
             });
 
             OnModelCreatingPartial(modelBuilder);

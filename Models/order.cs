@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -17,6 +17,7 @@ namespace Group2_BookStore.Models
         public DateTime? OrderDateTime { get; set; }
         public string CustomerEmail { get; set; }
         public int? AddressId { get; set; }
+
         public int? Status { get; set; }
 
         public virtual Customer CustomerEmailNavigation { get; set; }

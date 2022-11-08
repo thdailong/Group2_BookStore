@@ -103,6 +103,7 @@ a:focus {
     text-decoration: none;
     outline: none;
     color: #ffffff;
+
 }
 
 ul,
@@ -3718,6 +3719,12 @@ ol {
     border: none;
     border-bottom: 1px solid #dc3545;
     margin-bottom: 25px;
+.inp-login {
+  color: #dc3545;
+  background-color: #fdfafa;
+  border: none;
+  border-bottom: 1px solid #dc3545;
+  margin-bottom: 25px;
 }
 
 #btn-login {
