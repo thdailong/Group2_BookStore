@@ -20,7 +20,7 @@ namespace Group2_BookStore.Controllers
         private readonly AddressDAO addressDAO;
         private readonly OrderDAO orderDAO;
         private readonly CartDAO cartDAO;
-        
+        private readonly FavoriteDAO favoriteDAO;
 
         public UserController(BOOKSTOREContext db)
         {
@@ -28,6 +28,7 @@ namespace Group2_BookStore.Controllers
             addressDAO = new AddressDAO(db);
             orderDAO = new OrderDAO(db);
             cartDAO = new CartDAO(db);
+            favoriteDAO = new FavoriteDAO(db);
         }
         public IActionResult index()
         {
@@ -58,6 +59,7 @@ namespace Group2_BookStore.Controllers
             HttpContext.Session.SetString("CustomerEmail", cus.CustomerEmail);
             HttpContext.Session.SetString("Name", cus.Name);
             HttpContext.Session.SetInt32("NumberItem", cartDAO.GetCartsOnCusEmail(CustomerEmail).Count());
+            HttpContext.Session.SetInt32("NumberFavorite", favoriteDAO.getFavoriteOnCustomer(CustomerEmail).Count());
 
             return Redirect(Path);
         }
@@ -358,10 +360,34 @@ namespace Group2_BookStore.Controllers
             var customerEmail = getUser();
             if (customerEmail == null) return RedirectToAction("Index", "Home");
 
-            var list = 
+            var list = favoriteDAO.getFavoriteOnCustomer(customerEmail);
+            ViewBag.ListFavorite = list;
+
             return View();
         }
-        
+
+        public IActionResult DeleteFavorite(int BookId)
+        {
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
+
+            favoriteDAO.deleteFavorite(customerEmail, BookId);
+
+            return RedirectToAction("Favorite");
+        }
+
+        public IActionResult AddFavorite(int BookId)
+        {
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
+
+            HttpContext.Session.SetInt32("NumberFavorite", favoriteDAO.getFavoriteOnCustomer(customerEmail).Count());
+            favoriteDAO.addFavorite(customerEmail, BookId);
+            TempData["Success"] = "Add to favorite successfully";
+
+            return RedirectToAction("Favorite");
+        }
+
 
     }
 }
