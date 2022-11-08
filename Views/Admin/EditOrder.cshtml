@@ -1,0 +1,78 @@
+@model Order
+
+@{
+    ViewData["Title"] = "EditOrder";
+    Layout = "layout__admin";
+}
+
+ <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item"><a asp-controller="Admin" asp-action="Index">Dashboard</a></li>
+
+        <li class="breadcrumb-item">Update Order</li>
+    </ol>
+
+     <div class="d-flex justify-content-center align-items-center" style="100vh">
+    <h1 class="text-primary">Update Order</h1>
+    <div style="width: .5rem;"> </div>
+    </div>
+    <hr />
+
+<div class="row" style="display: flex; justify-content: center;">
+    <div class="col-md-4">
+        <form asp-action="EditOrder" method="post">
+            <div class="form-group">
+                <label asp-for="OrderId" class="control-label"></label>
+                <input asp-for="OrderId" class="form-control" readonly/>
+                <span asp-validation-for="OrderId" class="text-danger"></span>
+            </div>
+
+             <div class="form-group">
+                <label asp-for="OrderDateTime" class="control-label"></label>
+                <input type="date" asp-for="OrderDateTime" class="form-control" />
+                <span asp-validation-for="OrderDateTime" class="text-danger"></span>
+            </div>
+
+
+          
+            <div class="form-group">
+                <label asp-for="CustomerEmail" class="control-label"></label>
+                <input asp-for="CustomerEmail" class="form-control" />
+                <span asp-validation-for="CustomerEmail" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AddressId" class="control-label"></label>
+                <input asp-for="AddressId" class="form-control" />
+                <span asp-validation-for="AddressId" class="text-danger"></span>
+            </div>
+
+              @* <div class="form-group">
+                <label asp-for="AddressId" class="control-label"></label>
+               <select asp-for="AddressId" class="form-control">
+                    @foreach (var item in ViewBag.memlist)
+                    {
+                        <option value="@item.AddressId">
+                                @item.Email
+                        </option>
+                    }
+                </select>
+                <span asp-validation-for="AddressId" class="text-danger"></span>
+            </div> *@
+
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-success" />
+            </div>
+        </form>
+         <a class="btn btn-primary" asp-action="Order">Back to List</a>
+    </div>
+         
+    </div>
+
+<div>
+  
+</div>
