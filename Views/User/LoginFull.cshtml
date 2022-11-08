@@ -1,0 +1,25 @@
+@{
+    ViewData["Title"] = "LoginFull";
+}
+
+<form asp-controller="User" asp-action="login" method="post" id="formLogin">
+    <h3 class="text-center txt-login font-weight-bold" style="color: #000; padding-top: 10px;">LOGIN
+    </h3>
+    <hr>
+    <div class="form-group" style="margin-left: 13%; width: 150%;">
+        <label class=" txt-login-lable" for="Name">Email</label><br>
+        <input class="form-control" id="inp-login" placeholder="Enter email" name="CustomerEmail" required>
+        <span class="txt-login text-danger"></span>
+    </div>
+    <div class="form-group" style="margin-left: 13%; width: 150%;">
+        <label class=" txt-login-lable" for="">Password</label><br>
+        <input class="form-control" id="inp-login" type="password" name="Password" placeholder="Enter address" required>
+    </div>
+    <span class="txt-login text-danger" style="margin-left: 13%; width: 150%;"> @TempData["MessageLogin"]</span>
+    <input type="text" id="Path" hidden name="Path" value="LoginFull">
+    <div class="form-group">
+        <button type="submit" value="submit" class="btn btn-primary txt-login" id="btn-login">
+            Login
+        </button>
+    </div>
+</form>
