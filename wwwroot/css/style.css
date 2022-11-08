@@ -102,8 +102,6 @@ a:hover,
 a:focus {
     text-decoration: none;
     outline: none;
-    color: #ffffff;
-
 }
 
 ul,
@@ -3713,15 +3711,8 @@ ol {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-#inp-login {
-    color: #dc3545;
-    background-color: #fdfafa;
-    border: none;
-    border-bottom: 1px solid #dc3545;
-    margin-bottom: 25px;
 .inp-login {
   color: #dc3545;
-  background-color: #fdfafa;
   border: none;
   border-bottom: 1px solid #dc3545;
   margin-bottom: 25px;
@@ -3759,5 +3750,4 @@ ol {
 .txt-register {
     margin-left: 15%;
     font-weight: 600;
-    color: rgb(253, 252, 252);
 }
