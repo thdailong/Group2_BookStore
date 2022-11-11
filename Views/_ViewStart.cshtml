@@ -15,7 +15,21 @@
 "Textbook",
 "Comic"
 };
+    var imageCat = new List<string>() {
+"https://img.freepik.com/premium-vector/motivation-horizontal-banner-your-website-idea-training-business-growth-study-tutorials-become-better-illustration_277904-3965.jpg?w=2000",
+"https://cdn.pastemagazine.com/www/articles/2020/01/03/bestfantasyseriesmainimage.jpg",
+"https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/sci-fi-1647637695.jpg?crop=0.502xw:1.00xh;0.171xw,0&resize=640:*",
+"https://images.ctfassets.net/3s5io6mnxfqz/5yaU9R8CfN7H3IFwlpjINO/41882ddd6ce99df47e11434a03ee6271/AdobeStock_138391201.jpeg",
+"https://www.barnesandnoble.com/blog/wp-content/uploads/2021/03/Manga_Blog.jpg",
+"https://i0.wp.com/redwolfpress.com/wp-content/uploads/2019/02/YA-Romance-Books-for-Teens-Image.png?fit=900%2C480&ssl=1",
+"https://bkpk.me/wp-content/uploads/2014/11/booktravel.jpeg",
+"https://thumbs.dreamstime.com/z/cartoon-how-to-book-black-white-line-retro-style-vector-available-37031992.jpg",
+"https://helios-i.mashable.com/imagery/articles/00Z8W8Xypn5aiD85AbLnEKk/hero-image.fill.size_1248x702.v1623390263.jpg",
+"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHSrH7xkRc1c9wmOVkR7FZlYkiXXfUvtdH2w&usqp=CAU",
+"https://upload.wikimedia.org/wikipedia/commons/f/f9/Fantastic_Comics_1.jpg",
+};
     ViewBag.CatArray = array;
+    ViewBag.CatImage = imageCat;
 }
 
 @{
@@ -23,10 +37,13 @@
     int? Status = HttpContextAccessor.HttpContext.Session.GetInt32("Status");
     string? Name = HttpContextAccessor.HttpContext.Session.GetString("Name");
     int? NumberItem = HttpContextAccessor.HttpContext.Session.GetInt32("NumberItem");
+    int? NumberFavorite = HttpContextAccessor.HttpContext.Session.GetInt32("NumberFavorite");
     ViewBag.Name = Name;
     ViewBag.CustomerEmail = CustomerEmail;
     ViewBag.Status = (Status == null ? -1 : Status.Value);
     ViewBag.NumberItem = (NumberItem == null ? 0 : NumberItem.Value);
+    ViewBag.NumberFavorite = (NumberFavorite == null ? 0 : NumberFavorite.Value);
+
     if (ViewBag.Status > 1) Layout = "layout__admin";
     else Layout = "_Layout";
 }

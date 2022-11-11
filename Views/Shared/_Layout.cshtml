@@ -115,6 +115,9 @@
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
+                            <li><a asp-action="Favorite" asp-controller="User"><i class="fa fa-heart"></i>
+                                    <span>@ViewBag.NumberFavorite</span></a></li>
+
                             <li><a asp-action="Index" asp-controller="Cart"><i class="fa fa-shopping-bag"></i>
                                     <span>@ViewBag.NumberItem</span></a></li>
                         </ul>
@@ -181,6 +184,11 @@
             @RenderBody()
         </main>
     </div>
+
+    <!-- Scroll Up -->
+    <a href="#home" class="scrollup" id="scroll-up">
+        <div class="scroll__icon">Up</div>
+    </a>
 
     <!-- Footer Section Begin -->
     <footer class="footer spad">
@@ -272,4 +280,3 @@
 </body>
 
 </html>
-

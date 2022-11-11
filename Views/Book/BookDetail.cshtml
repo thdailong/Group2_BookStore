@@ -96,7 +96,7 @@
                         </p>
                         <br>
                         <p class="book__detail__add"> 100% Genuine Product</p>
-                        <a class="book__detail__add" href="#"> <i class="fa fa-heart"></i> Add to Favorite</a>
+                        <a asp-action="AddFavorite" asp-controller="User" asp-route-BookId="@Model.BookId"> <i class="fa fa-heart"></i> Add to Favorite</a>
                         </p>
                         <hr>
                         <p class="book__detail__price">@Model.Price VND</p>
@@ -109,7 +109,7 @@
                                 <i class="fa fa-star"></i>
                             }
                         </p>
-                        <p class="book__detail__sold"> 42 Sold</p>
+                        @* <p class="book__detail__sold"> 42 Sold</p> *@
                         <hr>
                         <form asp-action="AddBookToCart" asp-controller="Cart">
                             <div class="cart__quantity__container" style="padding: 1rem;">

@@ -20,7 +20,7 @@ namespace Group2_BookStore.Controllers
         private readonly AddressDAO addressDAO;
         private readonly OrderDAO orderDAO;
         private readonly CartDAO cartDAO;
-
+        private readonly FavoriteDAO favoriteDAO;
 
         public UserController(BOOKSTOREContext db)
         {
@@ -28,6 +28,7 @@ namespace Group2_BookStore.Controllers
             addressDAO = new AddressDAO(db);
             orderDAO = new OrderDAO(db);
             cartDAO = new CartDAO(db);
+            favoriteDAO = new FavoriteDAO(db);
         }
         public IActionResult index()
         {
@@ -45,23 +46,72 @@ namespace Group2_BookStore.Controllers
         [HttpPost]
         public IActionResult login(string CustomerEmail, string Password, string Path)
         {
-            if (HttpContext.Session.GetInt32("Role") != null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
+
+            var customerEmail = getUser();
+            if (customerEmail != null) return RedirectToAction("Index", "Home");
             var cus = customerDAO.CustomerLogin(CustomerEmail, Password);
             if (cus == null)
             {
                 TempData["MessageLogin"] = "Wrong email or password";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("LoginFull");
             }
             HttpContext.Session.SetInt32("Status", cus.Status);
             HttpContext.Session.SetString("CustomerEmail", cus.CustomerEmail);
             HttpContext.Session.SetString("Name", cus.Name);
             HttpContext.Session.SetInt32("NumberItem", cartDAO.GetCartsOnCusEmail(CustomerEmail).Count());
+            HttpContext.Session.SetInt32("NumberFavorite", favoriteDAO.getFavoriteOnCustomer(CustomerEmail).Count());
 
             return Redirect(Path);
         }
+
+        public IActionResult LoginFull()
+        {
+            var customerEmail = getUser();
+            if (customerEmail != null) return RedirectToAction("Index", "Home");
+
+            return View();
+        }
+
+
+        public IActionResult register()
+        {
+            var customerEmail = getUser();
+            if (customerEmail != null) return RedirectToAction("Index", "Home");
+
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult registerr(Customer customer, string RepeatPassword)
+        {
+            var customerEmail = getUser();
+            if (customerEmail != null) return RedirectToAction("Index", "Home");
+            customer.Status = 1;
+            if (ModelState.IsValid)
+            {
+                if (customer.Password != RepeatPassword)
+                {
+                    TempData["Message"] = "Repeat password and password login is not the same";
+                    return RedirectToAction("register");
+                }
+                var cus = customerDAO.GetCustomerByEmail(customer.CustomerEmail);
+                if (cus != null)
+                {
+                    TempData["Message"] = "Email have already exist!";
+                    return RedirectToAction("register");
+                }
+                customerDAO.AddNew(customer);
+                HttpContext.Session.SetInt32("Status", customer.Status);
+                HttpContext.Session.SetString("CustomerEmail", customer.CustomerEmail);
+                HttpContext.Session.SetString("Name", customer.Name);
+                HttpContext.Session.SetInt32("NumberItem", cartDAO.GetCartsOnCusEmail(customer.CustomerEmail).Count());
+                return RedirectToAction("index");
+            }
+            return RedirectToAction("register");
+        }
+
 
         public IActionResult logout()
         {
@@ -304,6 +354,40 @@ namespace Group2_BookStore.Controllers
 
             return View();
         }
+
+        public IActionResult Favorite()
+        {
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
+
+            var list = favoriteDAO.getFavoriteOnCustomer(customerEmail);
+            ViewBag.ListFavorite = list;
+
+            return View();
+        }
+
+        public IActionResult DeleteFavorite(int BookId)
+        {
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
+
+            favoriteDAO.deleteFavorite(customerEmail, BookId);
+
+            return RedirectToAction("Favorite");
+        }
+
+        public IActionResult AddFavorite(int BookId)
+        {
+            var customerEmail = getUser();
+            if (customerEmail == null) return RedirectToAction("Index", "Home");
+
+            HttpContext.Session.SetInt32("NumberFavorite", favoriteDAO.getFavoriteOnCustomer(customerEmail).Count());
+            favoriteDAO.addFavorite(customerEmail, BookId);
+            TempData["Success"] = "Add to favorite successfully";
+
+            return RedirectToAction("Favorite");
+        }
+
 
     }
 }
