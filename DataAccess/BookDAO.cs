@@ -23,6 +23,13 @@ namespace DataAccess
             return Books;
         }
 
+        public List<Book> GetListBookHome() {
+            var books = new List<Book>();
+            books = context.Books.ToList();
+            books.Reverse();
+            return books;
+        }
+
         /// <summary>
         /// Return a list book base on page given(1 page contain 12 books)
         /// </summary>
@@ -153,7 +160,6 @@ namespace DataAccess
         {
             context.Books.Update(book);
             context.SaveChanges();
-
         }
 
         public void Remove(int BookId)
