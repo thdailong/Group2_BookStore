@@ -319,6 +319,61 @@ namespace Group2_BookStore.Controllers
             return View(order);
         }
 
+        public ActionResult EditOrder(int? id)
+        {
+
+             if (id == null)
+            {
+                return NotFound();
+            }
+            var order = orderDAO.GetOrderById(id.Value);
+            if (order == null) {
+                return NotFound();
+            }
+            return View(order);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditOrder(int id, Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                customerDAO.Update(customer);
+            }
+            return RedirectToAction(nameof(Customer));
+        }
+
+
+
+    public ActionResult DeleteOrder(int? id){ 
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var order = orderDAO.GetOrderById(id.Value);
+             if (order == null)
+            {
+                return NotFound();
+            }
+            return View(order);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteOrder(int id)
+        {  
+            try
+            {
+                orderDAO.DeleteOrder(id);
+                return RedirectToAction(nameof(Order));
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = ex.Message;
+                return RedirectToAction(nameof(DeleteOrder));
+            }
+        }
 
 
     }

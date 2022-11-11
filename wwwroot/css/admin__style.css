@@ -12288,6 +12288,7 @@ Best Seller
 .bsl__img {
     border-radius: 2px;
     padding: 1rem 0;
+    
 }
 
 .bsl__content {
@@ -12326,11 +12327,11 @@ Best Seller
 .detail__title {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     font-size: 2rem;
-    color: orange;
+    color: #084298;
     position: relative;
     top: -10%;
     font-weight: 600;
-    text-shadow: 0.6px 0.6px 15px #5ddcff;
+    text-shadow: 0.6px 0.6px 15px #084298;
 }
 
 .bsl_detail:hover {

@@ -84,5 +84,21 @@ namespace Group2_BookStore.DataAccess
             this.context.OrderDetails.Remove(res);
             this.context.SaveChanges();
         }
+
+       public (int, int) GetBestSeller() {
+            var res = this.context.OrderDetails
+            .GroupBy(x => x.BookId)
+            .Select(x => new { bookId = x.Key, quantity = x.Sum(c => c.Quantity)}).ToList();
+            if(res.Count==0) return (-1, -1);
+            return ((int)res[0].bookId, (int)res[0].quantity);
+        }
+        
+        public (String, int) GetLoyalCustomer() {
+            var res = this.context.Orders
+            .GroupBy(x => x.CustomerEmail)
+            .Select(x => new { CustomerEmail = x.Key, quantity = x.Select(c => c.OrderId).Distinct().Count()}).ToList();
+            if(res.Count==0) return ("", -1);
+            return ((String)res[0].CustomerEmail, (int)res[0].quantity);
+        }
     }
 }
