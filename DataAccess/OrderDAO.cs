@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Group2_BookStore.DB;
 using Group2_BookStore.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Group2_BookStore.DataAccess
 {
@@ -23,6 +24,15 @@ namespace Group2_BookStore.DataAccess
         public Order GetOrderById(int Id) {
             var tmp = this.context.Orders.Find(Id);
             this.context.OrderDetails.ToList();
+            var entry = context.Entry(tmp);
+            entry.Collection(c => c.OrderDetails).Load();
+            if (tmp.OrderDetails != null) {
+                foreach (var item in tmp.OrderDetails)
+                {
+                    var x = context.Entry(item);
+                    x.Reference(c => c.Book).Load();
+                }
+            }
             return tmp;
         }
 
@@ -117,10 +127,15 @@ namespace Group2_BookStore.DataAccess
             this.context.SaveChanges();
         }
 
+        public void Update(Order order) {
+            context.Orders.Update(order);
+            context.SaveChanges();
+        }
+
         public IEnumerable<Order> GetOrderList()
         {
             var Orders = new List<Order>();
-            Orders = context.Orders.OrderByDescending(x=>x.OrderDateTime).ToList();
+            Orders = context.Orders.OrderByDescending(x=>x.OrderDateTime).Include(c => c.Address).ToList();
             return Orders;
         }
 

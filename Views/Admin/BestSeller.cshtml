@@ -1,4 +1,4 @@
-@model IEnumerable<Book>
+@model Book
 @{
     ViewData["Title"] = "BestSeller";
     Layout = "layout__admin";
@@ -22,13 +22,13 @@
             <div class="bsl__book">
                 <img class="bsl__img col-lg-4" src="https://i.pinimg.com/564x/38/af/e1/38afe1c8629e8552ac10ba447ba01cfc.jpg">
                 <div class="bsl__info__container col-lg-8">
-                    <p class="bsl__info">model.BookId</p>
-                    <p class="bsl__info">model.Name</p>
-                    <p class="bsl__info">model.Author</p>
-                    <p class="bsl__info">model.Category</p>
+                    <p class="bsl__info">@Model.BookId</p>
+                    <p class="bsl__info">@Model.Name</p>
+                    <p class="bsl__info">@Model.Author.Name</p>
+                    <p class="bsl__info">@Model.Category</p>
                 </div>
             </div>
-            <a asp-action="DetailBook" asp-route-id="model.id" class="btn btn-outline-warning bsl_detail">Detail</a>
+            <a asp-action="DetailBook" asp-route-id="@Model.BookId" class="btn btn-outline-warning bsl_detail">Detail</a>
         </div>
     </div>
 </div>

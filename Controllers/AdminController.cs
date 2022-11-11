@@ -103,8 +103,10 @@ namespace Group2_BookStore.Controllers
             var userStatus = HttpContext.Session.GetInt32("Status");
             if (userStatus == null || userStatus.Value < 2) return RedirectToAction("Index", "Home");
 
+            var x = detailDAO.GetBestSeller();
+            var book = bookDAO.GetBookById(x.Item1);
             var booklist = bookDAO.GetBookList();
-            return View(booklist);
+            return View(book);
         }
 
         public IActionResult DearCustomer()
@@ -335,13 +337,13 @@ namespace Group2_BookStore.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditOrder(int id, Customer customer)
+        public ActionResult EditOrder(int id, Order order)
         {
             if (ModelState.IsValid)
             {
-                customerDAO.Update(customer);
+                orderDAO.Update(order);
             }
-            return RedirectToAction(nameof(Customer));
+            return RedirectToAction(nameof(Index));
         }
 
 

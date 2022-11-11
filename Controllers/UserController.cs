@@ -61,6 +61,8 @@ namespace Group2_BookStore.Controllers
             HttpContext.Session.SetInt32("NumberItem", cartDAO.GetCartsOnCusEmail(CustomerEmail).Count());
             HttpContext.Session.SetInt32("NumberFavorite", favoriteDAO.getFavoriteOnCustomer(CustomerEmail).Count());
 
+            if (HttpContext.Session.GetInt32("Status").Value == 2) return RedirectToAction("Index", "Admin");
+
             return Redirect(Path);
         }
 
@@ -119,6 +121,7 @@ namespace Group2_BookStore.Controllers
             HttpContext.Session.Remove("CustomerEmail");
             HttpContext.Session.Remove("Name");
             HttpContext.Session.Remove("NumberItem");
+            HttpContext.Session.Remove("NumberFavorite");
 
             return RedirectToAction("Index", "Home");
         }
