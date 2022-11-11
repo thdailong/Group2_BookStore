@@ -1,5 +1,3 @@
-
-
 @model IEnumerable<Order>
 @{
     ViewData["Title"] = "Home Page";
@@ -7,7 +5,7 @@
 }
 <link rel="stylesheet" href="~/css/admin__style.css">
 
-    <h1 class="mt-4"> All Books</h1>
+    <h1 class="mt-4"> All Orders</h1>
     <ol class="breadcrumb mb-4">
                <li class="breadcrumb-item"><a asp-controller="Admin" asp-action="Index">Dashboard</a></li>
         <li class="breadcrumb-item active">All Orders</li>
@@ -43,10 +41,14 @@
                     @Html.DisplayFor(modelItem => item.CustomerEmail)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.AddressId)
+                    @Html.DisplayFor(modelItem => item.Address.Address1)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Status)
+                    @foreach (var status in ViewBag.StatusArray)
+                    if (item.Status == status.Item1)
+                    {
+                        @status.Item2
+                    }
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "EditOrder", new { id = item.OrderId }, new{  @style="background-color: #379237; border-radius: 10px; color: #F8FFDB; padding: 5px; text-decoration: none;" }) 

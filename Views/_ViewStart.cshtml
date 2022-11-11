@@ -28,8 +28,17 @@
 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHSrH7xkRc1c9wmOVkR7FZlYkiXXfUvtdH2w&usqp=CAU",
 "https://upload.wikimedia.org/wikipedia/commons/f/f9/Fantastic_Comics_1.jpg",
 };
+    var StatusArray = new List<(int, string)>() {
+        (0, "Cancel"),
+        (1, "Wait for confirm"),
+        (2, "Confirm"),
+        (3, "Delivering"),
+        (4, "Received")
+    };
+    //var x = StatusArray[0].Item1;
     ViewBag.CatArray = array;
     ViewBag.CatImage = imageCat;
+    ViewBag.StatusArray = StatusArray;
 }
 
 @{

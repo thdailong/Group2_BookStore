@@ -335,13 +335,13 @@ namespace Group2_BookStore.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditOrder(int id, Customer customer)
+        public ActionResult EditOrder(int id, Order order)
         {
             if (ModelState.IsValid)
             {
-                customerDAO.Update(customer);
+                orderDAO.Update(order);
             }
-            return RedirectToAction(nameof(Customer));
+            return RedirectToAction(nameof(Index));
         }
 
 
