@@ -7,6 +7,7 @@ using DataAccess;
 using Group2_BookStore.DataAccess;
 using Group2_BookStore.DB;
 using Group2_BookStore.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -19,17 +20,22 @@ namespace Group2_BookStore.Controllers
         private readonly OrderDAO orderDAO;
         private readonly DetailOrderDAO detailDAO;
         private readonly AuthorDAO authorDAO;
-        
 
-        public AdminController(BOOKSTOREContext db) {
+
+        public AdminController(BOOKSTOREContext db)
+        {
             bookDAO = new BookDAO(db);
             customerDAO = new CustomerDAO(db);
             orderDAO = new OrderDAO(db);
             detailDAO = new DetailOrderDAO(db);
             authorDAO = new AuthorDAO(db);
         }
-        
-        public IActionResult Index() {
+
+        public IActionResult Index()
+        {
+            var userStatus = HttpContext.Session.GetInt32("Status");
+            if (userStatus == null || userStatus.Value < 2) return RedirectToAction("Index", "Home");
+
             var order_detail_done = detailDAO.GetListOrderDetailOnStatus(4);
             var array = new List<string>() {
                 "Motivation",
@@ -45,11 +51,14 @@ namespace Group2_BookStore.Controllers
                 "Comic"
             };
             int[] quantity_cate = new int[11], revenue_cate = new int[11];
-            foreach (var item in order_detail_done) {
-                for (int i = 0; i < array.Count; i++) {
-                    if(array[i] == item.Book.Category) {
+            foreach (var item in order_detail_done)
+            {
+                for (int i = 0; i < array.Count; i++)
+                {
+                    if (array[i] == item.Book.Category)
+                    {
                         quantity_cate[i] += (int)item.Quantity;
-                        revenue_cate[i] += (int)item.Price*(int)item.Quantity;
+                        revenue_cate[i] += (int)item.Price * (int)item.Quantity;
                     }
                 }
             }
@@ -58,42 +67,63 @@ namespace Group2_BookStore.Controllers
             ViewBag.quantity_cate = quantity_cate;
             ViewBag.revenue_cate = revenue_cate;
             //detailDAO.GetQuantityOnDate(DateTime.Parse("2022-10-30"), DateTime.Parse("2022-11-01"));
-            (ViewBag.label3, ViewBag.value3, ViewBag.value4) = detailDAO.GetQuantityOnDate(DateTime.Today.AddDays(-29), DateTime.Today);   
+            (ViewBag.label3, ViewBag.value3, ViewBag.value4) = detailDAO.GetQuantityOnDate(DateTime.Today.AddDays(-29), DateTime.Today);
             (ViewBag.ActiveUser, ViewBag.OrderCount) = detailDAO.overall_static();
             (ViewBag.Quantity_total, ViewBag.Revenue_total) = detailDAO.overall_static_2();
-            
+
             return View();
         }
-        public IActionResult Book() {
+        public IActionResult Book()
+        {
+            var userStatus = HttpContext.Session.GetInt32("Status");
+            if (userStatus == null || userStatus.Value < 2) return RedirectToAction("Index", "Home");
+
             var booklist = bookDAO.GetBookList();
             return View(booklist);
         }
-        public IActionResult Customer() {
+        public IActionResult Customer()
+        {
+            var userStatus = HttpContext.Session.GetInt32("Status");
+            if (userStatus == null || userStatus.Value < 2) return RedirectToAction("Index", "Home");
+
             var cuslist = customerDAO.GetCustomerList();
             return View(cuslist);
         }
-        public IActionResult Order() {
+        public IActionResult Order()
+        {
+            var userStatus = HttpContext.Session.GetInt32("Status");
+            if (userStatus == null || userStatus.Value < 2) return RedirectToAction("Index", "Home");
+
             var orderlist = orderDAO.GetOrderList();
             return View(orderlist);
         }
 
         public IActionResult BestSeller()
         {
-              var booklist = bookDAO.GetBookList();
+            var userStatus = HttpContext.Session.GetInt32("Status");
+            if (userStatus == null || userStatus.Value < 2) return RedirectToAction("Index", "Home");
+
+            var booklist = bookDAO.GetBookList();
             return View(booklist);
         }
-        
+
         public IActionResult DearCustomer()
         {
+            var userStatus = HttpContext.Session.GetInt32("Status");
+            if (userStatus == null || userStatus.Value < 2) return RedirectToAction("Index", "Home");
+
             var cuslist = customerDAO.GetCustomerList();
             return View(cuslist);
         }
-        
+
 
 
         public ActionResult EditBook(int? id)
         {
-             var catelist = new List<string>() {
+            var userStatus = HttpContext.Session.GetInt32("Status");
+            if (userStatus == null || userStatus.Value < 2) return RedirectToAction("Index", "Home");
+
+            var catelist = new List<string>() {
             "Motivation",
             "Fantasy",
             "Sci-Fi",
@@ -113,7 +143,8 @@ namespace Group2_BookStore.Controllers
                 return NotFound();
             }
             var book = bookDAO.GetBookById(id.Value);
-            if (book == null) {
+            if (book == null)
+            {
                 return NotFound();
             }
             return View(book);
@@ -123,6 +154,9 @@ namespace Group2_BookStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditBook(int id, Book book)
         {
+            var userStatus = HttpContext.Session.GetInt32("Status");
+            if (userStatus == null || userStatus.Value < 2) return RedirectToAction("Index", "Home");
+
             if (ModelState.IsValid)
             {
                 bookDAO.Update(book);
@@ -131,6 +165,9 @@ namespace Group2_BookStore.Controllers
         }
         public IActionResult CreateBook()
         {
+            var userStatus = HttpContext.Session.GetInt32("Status");
+            if (userStatus == null || userStatus.Value < 2) return RedirectToAction("Index", "Home");
+
             var catelist = new List<string>() {
             "Motivation",
             "Fantasy",
@@ -148,20 +185,27 @@ namespace Group2_BookStore.Controllers
             ViewBag.catelist = catelist;
             Book book = new Book();
             return View();
-        } 
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateBook(Book book) {
+        public ActionResult CreateBook(Book book)
+        {
+            var userStatus = HttpContext.Session.GetInt32("Status");
+            if (userStatus == null || userStatus.Value < 2) return RedirectToAction("Index", "Home");
+
             bookDAO.AddNew(book);
             return RedirectToAction(nameof(Book));
-            
-           
+
+
         }
 
-        
+
         public ActionResult DetailBook(int? id)
         {
+            var userStatus = HttpContext.Session.GetInt32("Status");
+            if (userStatus == null || userStatus.Value < 2) return RedirectToAction("Index", "Home");
+
             if (id == null)
             {
                 return NotFound();
@@ -176,7 +220,8 @@ namespace Group2_BookStore.Controllers
                 return NotFound();
             }
             var customer = customerDAO.GetCustomerByEmail(Email);
-            if (customer == null) {
+            if (customer == null)
+            {
                 return NotFound();
             }
             return View(customer);
@@ -186,6 +231,9 @@ namespace Group2_BookStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditCustomer(int id, Customer customer)
         {
+            var userStatus = HttpContext.Session.GetInt32("Status");
+            if (userStatus == null || userStatus.Value < 2) return RedirectToAction("Index", "Home");
+
             if (ModelState.IsValid)
             {
                 customerDAO.Update(customer);
@@ -194,25 +242,33 @@ namespace Group2_BookStore.Controllers
         }
         public IActionResult CreateCustomer()
         {
+            var userStatus = HttpContext.Session.GetInt32("Status");
+            if (userStatus == null || userStatus.Value < 2) return RedirectToAction("Index", "Home");
+
             return View();
-        } 
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateCustomer(Customer customer) {
+        public ActionResult CreateCustomer(Customer customer)
+        {
             if (ModelState.IsValid)
             {
                 customerDAO.AddNew(customer);
             }
             return RedirectToAction(nameof(Book));
         }
-            public ActionResult DeleteCustomer(string? Email){ 
+        public ActionResult DeleteCustomer(string? Email)
+        {
+            var userStatus = HttpContext.Session.GetInt32("Status");
+            if (userStatus == null || userStatus.Value < 2) return RedirectToAction("Index", "Home");
+
             if (Email == null)
             {
                 return NotFound();
             }
             var customer = customerDAO.GetCustomerByEmail(Email);
-             if (customer == null)
+            if (customer == null)
             {
                 return NotFound();
             }
@@ -222,7 +278,10 @@ namespace Group2_BookStore.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteCustomers(string Email)
-        {  
+        {
+            var userStatus = HttpContext.Session.GetInt32("Status");
+            if (userStatus == null || userStatus.Value < 2) return RedirectToAction("Index", "Home");
+
             try
             {
                 customerDAO.Remove(Email);
@@ -236,9 +295,12 @@ namespace Group2_BookStore.Controllers
         }
 
 
-        
+
         public ActionResult DetailCustomer(String? Email)
         {
+            var userStatus = HttpContext.Session.GetInt32("Status");
+            if (userStatus == null || userStatus.Value < 2) return RedirectToAction("Index", "Home");
+
             if (Email == null)
             {
                 return NotFound();
@@ -247,7 +309,8 @@ namespace Group2_BookStore.Controllers
             ViewBag.order = orderDAO.GetOrderByEmail(Email);
             return View(customer);
         }
-        public ActionResult DetailOrder(int? id) {
+        public ActionResult DetailOrder(int? id)
+        {
             if (id == null)
             {
                 return NotFound();
@@ -256,7 +319,7 @@ namespace Group2_BookStore.Controllers
             return View(order);
         }
 
-    
+
 
     }
 }

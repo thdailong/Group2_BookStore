@@ -18,9 +18,16 @@ namespace DataAccess
         public IEnumerable<Book> GetBookList()
         {
             var Books = new List<Book>();
-            Books = context.Books.OrderByDescending(x=>x.quantity).ToList();
+            Books = context.Books.OrderByDescending(x => x.quantity).ToList();
             var tmp = context.Authors.ToList();
             return Books;
+        }
+
+        public List<Book> GetListBookHome() {
+            var books = new List<Book>();
+            books = context.Books.ToList();
+            books.Reverse();
+            return books;
         }
 
         /// <summary>
@@ -66,8 +73,16 @@ namespace DataAccess
         {
             var books = context.Books.ToList();
             var tmp = context.Authors.ToList();
-            var res = from book in books where book.Name.Contains(name) select book;
-            return res.ToList();
+            var rx = new List<Book>();
+            foreach (var item in books) if (item.Name != null)
+            {
+                var itemLowerCase = item.Name.ToLower();
+                var nameLowerCase = name.ToLower();
+                if (itemLowerCase.Contains(nameLowerCase)) rx.Add(item);
+            }
+            // var res = from book in books 
+            //     where book.Name.Contains(name) select book;
+            return rx;
         }
 
         public IEnumerable<Book> GetBooksSearchOnPage(int page, string name)
@@ -123,7 +138,7 @@ namespace DataAccess
         {
             try
             {
-                book.BookId = this.context.Books.ToList().Max(c => c.BookId) +1;
+                book.BookId = this.context.Books.ToList().Max(c => c.BookId) + 1;
                 Book _Book = GetBookById(book.BookId);
                 if (_Book == null)
                 {
@@ -143,9 +158,8 @@ namespace DataAccess
 
         public void Update(Book book)
         {
-                context.Books.Update(book);
-                context.SaveChanges();
-    
+            context.Books.Update(book);
+            context.SaveChanges();
         }
 
         public void Remove(int BookId)
