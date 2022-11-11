@@ -121,6 +121,7 @@ namespace Group2_BookStore.Controllers
             HttpContext.Session.Remove("CustomerEmail");
             HttpContext.Session.Remove("Name");
             HttpContext.Session.Remove("NumberItem");
+            HttpContext.Session.Remove("NumberFavorite");
 
             return RedirectToAction("Index", "Home");
         }

@@ -103,8 +103,10 @@ namespace Group2_BookStore.Controllers
             var userStatus = HttpContext.Session.GetInt32("Status");
             if (userStatus == null || userStatus.Value < 2) return RedirectToAction("Index", "Home");
 
+            var x = detailDAO.GetBestSeller();
+            var book = bookDAO.GetBookById(x.Item1);
             var booklist = bookDAO.GetBookList();
-            return View(booklist);
+            return View(book);
         }
 
         public IActionResult DearCustomer()

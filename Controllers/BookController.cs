@@ -30,7 +30,8 @@ namespace Group2_BookStore.Controllers
 
         public IActionResult Index(int? page)
         {
-            if (HttpContext.Session.GetInt32("Status").Value == 2) return RedirectToAction("Index", "Admin");
+            if (HttpContext.Session.GetInt32("Status") != null
+            && HttpContext.Session.GetInt32("Status").Value == 2) return RedirectToAction("Index", "Admin");
 
             if (page == null) page = 1;
             if (page.Value < 1) return NotFound();
